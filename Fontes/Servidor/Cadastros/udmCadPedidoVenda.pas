@@ -39,6 +39,7 @@ implementation
 
 function TdmCadPedidoVenda.ExcluirDados(ID: Integer): Boolean;
 begin
+  Result := True;
   TConnectionManager.GetDMConexao.fdConexao.StartTransaction;
   try
     qryCadastro.SQL.Text := 'DELETE FROM PEDIDOITENS ' +

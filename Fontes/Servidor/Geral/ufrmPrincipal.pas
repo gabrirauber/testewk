@@ -107,10 +107,10 @@ function TfrmPrincipal.GetPorta: integer;
 var
   ATmp: string;
 begin
-  ATmp := TArquivoIni.LerArquivoINI('CONEXAO', 'PORTA');
+  ATmp := TArquivoIni.LerArquivoINI(SESSAOCONEXAOSERV, 'PORTA');
   if ATmp = '' then
   begin
-    TArquivoIni.GravarArquivoINI('CONEXAO', 'PORTA', '8080');
+    TArquivoIni.GravarArquivoINI(SESSAOCONEXAOSERV, 'PORTA', '8080');
     ATmp := '8080';
   end;
   Result := StrToInt(ATmp);

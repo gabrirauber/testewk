@@ -49,7 +49,7 @@ end;
 
 function TdmBaseCadastro.ExcluirDados(ID: Integer): Boolean;
 begin
-
+  Result := False;
 end;
 
 function TdmBaseCadastro.RetornaDados(ID: Integer): String;
@@ -69,7 +69,7 @@ end;
 
 function TdmBaseCadastro.SalvarDados(Json: String): Boolean;
 begin
-
+  Result := False;
 end;
 
 end.

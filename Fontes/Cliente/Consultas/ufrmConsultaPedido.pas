@@ -38,17 +38,17 @@ implementation
 function TMethodsConsultaPedido.QueryInterface(const IID: TGUID;
   out Obj): HResult;
 begin
-
+  Result := -1
 end;
 
 function TMethodsConsultaPedido._AddRef: Integer;
 begin
-
+  Result := -1
 end;
 
 function TMethodsConsultaPedido._Release: Integer;
 begin
-
+  Result := -1
 end;
 
 procedure TfrmConsultaPedido.CorrigirTamanhoColunas;

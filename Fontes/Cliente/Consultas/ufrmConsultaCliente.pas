@@ -57,17 +57,17 @@ end;
 function TMethodsConsultaCliente.QueryInterface(const IID: TGUID;
   out Obj): HResult;
 begin
-
+  Result := -1
 end;
 
 function TMethodsConsultaCliente._AddRef: Integer;
 begin
-
+  Result := -1
 end;
 
 function TMethodsConsultaCliente._Release: Integer;
 begin
-
+  Result := -1
 end;
 
 procedure TfrmConsultaCliente.MontarItem(Dados: String; Index: Integer);

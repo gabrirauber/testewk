@@ -1,7 +1,7 @@
 inherited frmBaseConsulta: TfrmBaseConsulta
   Caption = 'Consulta'
-  ClientHeight = 536
-  ClientWidth = 647
+  ClientHeight = 535
+  ClientWidth = 643
   OnClose = FormClose
   ExplicitWidth = 659
   ExplicitHeight = 574
@@ -9,12 +9,10 @@ inherited frmBaseConsulta: TfrmBaseConsulta
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 647
-    Height = 536
+    Width = 643
+    Height = 535
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 643
-    ExplicitHeight = 535
     object pnlControle: TPanel
       Left = 1
       Top = 478

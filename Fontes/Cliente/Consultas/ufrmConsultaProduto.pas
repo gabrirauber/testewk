@@ -37,16 +37,18 @@ implementation
 function TMethodsConsultaProduto.QueryInterface(const IID: TGUID;
   out Obj): HResult;
 begin
-
+  Result := -1
 end;
 
 function TMethodsConsultaProduto._AddRef: Integer;
 begin
+  Result := -1
 
 end;
 
 function TMethodsConsultaProduto._Release: Integer;
 begin
+  Result := -1
 
 end;
 

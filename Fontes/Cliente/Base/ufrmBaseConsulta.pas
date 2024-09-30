@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Vcl.Grids, uInterfaces, System.JSON, uClasses;
+  Vcl.Grids, uInterfaces, System.JSON, uClasses, System.Generics.Collections;
 
 type
   TfrmBaseConsulta = class(TfrmBase)
@@ -26,9 +26,6 @@ type
       Shift: TShiftState);
   private
     { Private declarations }
-    FCampoRetorno: String;
-    FCodigoRetornado: Integer;
-    FDescricaoRetornada: String;
     FDadoRetorno: TDados;
     procedure MontarCabecalho(Cabecalho: TJSONArray);
   protected
@@ -98,7 +95,7 @@ var
 begin
   grdConsulta.ColCount := Cabecalho.Count;
   for I := 0 to Cabecalho.Count -1 do
-    grdConsulta.Cells[I,0] := Cabecalho.Get(I).GetValue<String>;
+    grdConsulta.Cells[I,0] := Cabecalho.Items[I].getValue<String>;
   CorrigirTamanhoColunas;
 end;
 
@@ -116,7 +113,7 @@ begin
   MontarCabecalho(DadosConsulta.GetValue<TJSONArray>('cabecalho'));
   grdConsulta.RowCount := DadosConsulta.GetValue<TJSONArray>('dados').Count + 1;
   for I := 0 to DadosConsulta.GetValue<TJSONArray>('dados').Count -1 do
-    MontarItem(DadosConsulta.GetValue<TJSONArray>('dados').Get(I).ToString, I + 1);
+    MontarItem(DadosConsulta.GetValue<TJSONArray>('dados').Items[I].ToString, I + 1);
 end;
 
 procedure TfrmBaseConsulta.Selecionar;

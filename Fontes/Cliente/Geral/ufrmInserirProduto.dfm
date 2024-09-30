@@ -43,6 +43,34 @@ inherited frmInserirProduto: TfrmInserirProduto
     TabOrder = 1
     ExplicitWidth = 443
     ExplicitHeight = 203
+    object Label1: TLabel
+      Left = 17
+      Top = 12
+      Width = 46
+      Height = 15
+      Caption = 'Produto:'
+    end
+    object Label2: TLabel
+      Left = 17
+      Top = 67
+      Width = 65
+      Height = 15
+      Caption = 'Quantidade:'
+    end
+    object Label3: TLabel
+      Left = 175
+      Top = 67
+      Width = 73
+      Height = 15
+      Caption = 'Valor unit'#225'rio:'
+    end
+    object Label4: TLabel
+      Left = 17
+      Top = 123
+      Width = 56
+      Height = 15
+      Caption = 'Valor total:'
+    end
     object edtProduto: TSpinEdit
       Left = 17
       Top = 33
@@ -54,11 +82,6 @@ inherited frmInserirProduto: TfrmInserirProduto
       Value = 0
       OnExit = edtProdutoExit
       OnKeyDown = edtProdutoKeyDown
-    end
-    object cxLabel1: TcxLabel
-      Left = 16
-      Top = 8
-      Caption = 'Produto:'
     end
     object btnConsultarProduto: TButton
       Left = 95
@@ -78,21 +101,6 @@ inherited frmInserirProduto: TfrmInserirProduto
       Height = 23
       Enabled = False
       TabOrder = 2
-    end
-    object cxLabel2: TcxLabel
-      Left = 16
-      Top = 63
-      Caption = 'Quantidade:'
-    end
-    object cxLabel3: TcxLabel
-      Left = 174
-      Top = 63
-      Caption = 'Valor Unit'#225'rio:'
-    end
-    object cxLabel4: TcxLabel
-      Left = 15
-      Top = 119
-      Caption = 'Valor Total:'
     end
     object edtValorUnitario: TEdit
       Left = 174

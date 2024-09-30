@@ -5,25 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.StdCtrls, Vcl.ExtCtrls,
-  uClasses, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, dxSkinsCore, dxSkinBasic, dxSkinBlack, dxSkinBlue,
-  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinOffice2016Colorful, dxSkinOffice2016Dark,
-  dxSkinOffice2019Black, dxSkinOffice2019Colorful, dxSkinOffice2019DarkGray,
-  dxSkinOffice2019White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinTheBezier,
-  dxSkinsDefaultPainters, dxSkinValentine, dxSkinVisualStudio2013Blue,
-  dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010,
-  dxSkinWhiteprint, dxSkinXmas2008Blue, cxLabel, Vcl.Samples.Spin,
-  System.ImageList, Vcl.ImgList, Vcl.Mask, ufrmConsultaProduto, uMethods,
+  uClasses, Vcl.Samples.Spin,System.ImageList, Vcl.ImgList, Vcl.Mask, ufrmConsultaProduto, uMethods,
   udmConexao, Rest.Json;
 
 type
@@ -33,16 +15,16 @@ type
     btnAdicionar: TButton;
     Panel1: TPanel;
     edtProduto: TSpinEdit;
-    cxLabel1: TcxLabel;
     btnConsultarProduto: TButton;
     edtDescricao: TEdit;
     ilLista: TImageList;
-    cxLabel2: TcxLabel;
-    cxLabel3: TcxLabel;
-    cxLabel4: TcxLabel;
     edtValorUnitario: TEdit;
     edtValorTotal: TEdit;
     edtQuantidade: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     procedure btnCancelarClick(Sender: TObject);
     procedure btnAdicionarClick(Sender: TObject);
     procedure btnConsultarProdutoClick(Sender: TObject);
@@ -88,8 +70,8 @@ implementation
 
 function TfrmInserirProduto.ApenasNumeros(key: Char): Char;
 begin
-  if not (Key in ['0'..'9', #8, ',']) then
-    Key := #0
+  if not CharInSet(Key, ['0'..'9', #8, ',']) then
+    Result := #0
   else
     Result := key;
 end;

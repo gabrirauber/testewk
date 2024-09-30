@@ -22,7 +22,6 @@ uses DataBKR, DSNames, DBXCommon, DSServerResStrs, Dialogs;
 
 function TDSServidorClass.GetDSClass;
 begin
-  Result := nil;
   if FClassDisp <> nil then
     Result := TDSClass.Create(FClassDisp, False)
   else

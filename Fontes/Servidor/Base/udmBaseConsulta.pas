@@ -44,7 +44,7 @@ end;
 
 function TdmBaseConsulta.RetornaCabecalhos: TJSONArray;
 begin
-
+  Result := nil
 end;
 
 function TdmBaseConsulta.RetornaDadosConsulta(Filtro: String): String;

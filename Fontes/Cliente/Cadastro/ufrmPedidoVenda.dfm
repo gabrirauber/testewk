@@ -12,11 +12,12 @@ inherited frmPedidoVenda: TfrmPedidoVenda
     Height = 658
     ExplicitLeft = 0
     ExplicitTop = 0
-    ExplicitWidth = 872
-    ExplicitHeight = 658
+    ExplicitWidth = 868
+    ExplicitHeight = 657
     inherited pnlControle: TPanel
       Top = 600
-      ExplicitTop = 600
+      ExplicitTop = 599
+      ExplicitWidth = 866
       inherited btnCancelar: TButton
         Left = 733
         ExplicitLeft = 733
@@ -53,10 +54,26 @@ inherited frmPedidoVenda: TfrmPedidoVenda
       Align = alTop
       TabOrder = 1
       ExplicitWidth = 866
-      object cxLabel1: TcxLabel
-        Left = 16
-        Top = 8
+      object Label1: TLabel
+        Left = 17
+        Top = 12
+        Width = 40
+        Height = 15
         Caption = 'Cliente:'
+      end
+      object Label2: TLabel
+        Left = 544
+        Top = 12
+        Width = 40
+        Height = 15
+        Caption = 'Pedido:'
+      end
+      object Label3: TLabel
+        Left = 733
+        Top = 12
+        Width = 89
+        Height = 15
+        Caption = 'Data de emiss'#227'o:'
       end
       object btnConsularCliente: TButton
         Left = 95
@@ -87,16 +104,6 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         MaxLength = 10
         TabOrder = 4
         Text = '  /  /    '
-      end
-      object cxLabel2: TcxLabel
-        Left = 733
-        Top = 8
-        Caption = 'Data de emiss'#227'o:'
-      end
-      object cxLabel3: TcxLabel
-        Left = 544
-        Top = 8
-        Caption = 'Numero Pedido:'
       end
       object edtNumeroPedido: TEdit
         Left = 544
@@ -204,9 +211,11 @@ inherited frmPedidoVenda: TfrmPedidoVenda
       TabOrder = 3
       ExplicitTop = 521
       ExplicitWidth = 866
-      object cxLabel4: TcxLabel
+      object Label4: TLabel
         Left = 708
-        Top = 8
+        Top = 12
+        Width = 56
+        Height = 15
         Caption = 'Valor total:'
       end
       object edtValorTotal: TEdit
@@ -221,7 +230,7 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 0
       end
     end
   end
