@@ -1,30 +1,35 @@
 inherited frmPedidoVenda: TfrmPedidoVenda
   Caption = 'Pedido de Venda'
   ClientHeight = 658
-  ClientWidth = 872
+  ClientWidth = 981
   FormStyle = fsMDIChild
   Visible = True
   OnCreate = FormCreate
+  ExplicitWidth = 993
   ExplicitHeight = 696
   TextHeight = 15
   inherited pnlPrincipal: TPanel
-    Width = 872
+    Width = 981
     Height = 658
     ExplicitLeft = 0
     ExplicitTop = 0
-    ExplicitWidth = 868
+    ExplicitWidth = 977
     ExplicitHeight = 657
     inherited pnlControle: TPanel
       Top = 600
+      Width = 979
+      TabOrder = 3
       ExplicitTop = 599
-      ExplicitWidth = 866
+      ExplicitWidth = 975
       inherited btnCancelar: TButton
         Left = 733
+        TabOrder = 3
         ExplicitLeft = 733
       end
       inherited btnSalvar: TButton
         Left = 598
         Caption = 'Gravar Pedido'
+        TabOrder = 2
         ExplicitLeft = 598
       end
       object btnLocalizarPedido: TButton
@@ -33,7 +38,7 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         Width = 129
         Height = 25
         Caption = 'Localizar Pedido'
-        TabOrder = 2
+        TabOrder = 0
         OnClick = btnLocalizarPedidoClick
       end
       object btnExcluirPedido: TButton
@@ -42,18 +47,18 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         Width = 129
         Height = 25
         Caption = 'Excluir Pedido'
-        TabOrder = 3
+        TabOrder = 1
         OnClick = btnExcluirPedidoClick
       end
     end
     object pnlControleCliente: TPanel
       Left = 1
       Top = 1
-      Width = 870
+      Width = 979
       Height = 72
       Align = alTop
-      TabOrder = 1
-      ExplicitWidth = 866
+      TabOrder = 0
+      ExplicitWidth = 975
       object Label1: TLabel
         Left = 17
         Top = 12
@@ -135,17 +140,17 @@ inherited frmPedidoVenda: TfrmPedidoVenda
     object GroupBox1: TGroupBox
       Left = 1
       Top = 73
-      Width = 870
+      Width = 979
       Height = 449
       Align = alClient
       Caption = 'Produtos'
-      TabOrder = 2
-      ExplicitWidth = 866
+      TabOrder = 1
+      ExplicitWidth = 975
       ExplicitHeight = 448
       object grdItens: TStringGrid
         Left = 2
         Top = 17
-        Width = 866
+        Width = 975
         Height = 389
         Align = alClient
         FixedCols = 0
@@ -153,20 +158,20 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         FixedRows = 0
         TabOrder = 0
         OnKeyDown = grdItensKeyDown
-        ExplicitWidth = 862
+        ExplicitWidth = 971
         ExplicitHeight = 388
       end
       object pnlControleProd: TPanel
         Left = 2
         Top = 406
-        Width = 866
+        Width = 975
         Height = 41
         Align = alBottom
         Color = 6118749
         ParentBackground = False
         TabOrder = 1
         ExplicitTop = 405
-        ExplicitWidth = 862
+        ExplicitWidth = 971
         object btnIncluirProd: TButton
           Left = 15
           Top = 6
@@ -202,15 +207,15 @@ inherited frmPedidoVenda: TfrmPedidoVenda
         end
       end
     end
-    object Panel1: TPanel
+    object pnlTotal: TPanel
       Left = 1
       Top = 522
-      Width = 870
+      Width = 979
       Height = 78
       Align = alBottom
-      TabOrder = 3
+      TabOrder = 2
       ExplicitTop = 521
-      ExplicitWidth = 866
+      ExplicitWidth = 975
       object Label4: TLabel
         Left = 708
         Top = 12

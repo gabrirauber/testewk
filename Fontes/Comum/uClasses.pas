@@ -56,12 +56,12 @@ type
     FValorUnitario: Currency;
     FValorTotal: Currency;
     FID: Integer;
-    FTempID: Integer;
     FCancelado: Boolean;
+    FIndexGrid: Integer;
   public
     constructor Create;
     property ID: Integer read FID write FID;
-    property TempID: Integer read FTempID write FTempID;
+    property IndexGrid: Integer read FIndexGrid write FIndexGrid;
     property Produto: TDadosProduto read FProduto write FProduto;
     property Quantidade: Double read FQuantidade write FQuantidade;
     property Cancelado: Boolean read FCancelado write FCancelado;
@@ -78,7 +78,6 @@ type
     FDataEmissao: Double;
     FValorTotal: Currency;
     FItens: TListaItens;
-    function RetornaTempID: Integer;
     procedure AjustarValorTotal;
   public
     destructor Destroy; override;
@@ -87,7 +86,7 @@ type
     property DataEmissao: Double read FDataEmissao write FDataEmissao;
     property ValorTotal: Currency read FValorTotal write FValorTotal;
     property Itens: TListaItens read FItens write FItens;
-    procedure InserirItem(Item: TDadosItemPedido);
+    procedure InserirItem(Item: TDadosItemPedido; IndexGrid: Integer);
     procedure AtualizarItem(ItemAntigo: TDadosItemPedido; ItemNovo: TDadosItemPedido);
     procedure CancelarItem(Item: TDadosItemPedido);
   end;
@@ -128,25 +127,38 @@ end;
 
 procedure TPedido.CancelarItem(Item: TDadosItemPedido);
 var
-  I: Integer;
+  C: Integer;
   IndiceExcluir: Integer;
+
+  procedure AjustarIndiceGrid;
+  var
+    I: Integer;
+  begin
+    Itens[IndiceExcluir].IndexGrid := -1;
+    for I := IndiceExcluir +1 to Length(Itens) -1 do
+      Itens[I].IndexGrid := Itens[I].IndexGrid -1;
+  end;
+
 begin
+  IndiceExcluir := -1;
+  for C := 0 to Length(Itens) -1 do
+  begin
+    if Itens[C] = Item then
+    begin
+      IndiceExcluir := C;
+      Break;
+    end;
+  end;
   if Item.ID > 0 then
-    Item.Cancelado := True
+  begin
+    Item.Cancelado := True;
+    AjustarIndiceGrid;
+  end
   else
   begin
-    IndiceExcluir := -1;
-    for I := 0 to Length(Itens) -1 do
-    begin
-      if Itens[I] = Item then
-      begin
-        IndiceExcluir := I;
-        Break;
-      end;
-    end;
-    for I := IndiceExcluir to Length(Itens) -2 do
-      Itens[IndiceExcluir] := Itens[IndiceExcluir +1];
-
+    AjustarIndiceGrid;
+    for C := IndiceExcluir to Length(Itens) -2 do
+      Itens[C] := Itens[C +1];
     Item.Free;
     SetLength(FItens, Length(FItens) -1);
   end;
@@ -158,27 +170,18 @@ var
   I: Integer;
 begin
   for I := 0 to Length(Itens) -1 do
-    Itens[I].Free;
+    if Assigned(Itens[I]) then
+      Itens[I].Free;
 
   inherited;
 end;
 
-procedure TPedido.InserirItem(Item: TDadosItemPedido);
+procedure TPedido.InserirItem(Item: TDadosItemPedido; IndexGrid: Integer);
 begin
-  if (Item.TempID = 0) then
-    Item.TempID := RetornaTempID;
+  Item.IndexGrid := IndexGrid;
   SetLength(FItens, Length(FItens) + 1);
   FItens[Length(FItens) -1] := Item;
   AjustarValorTotal;
-
-end;
-
-function TPedido.RetornaTempID: Integer;
-begin
-  if Length(Itens) > 0 then
-    Result := Itens[Length(Itens) - 1].TempID + 1
-  else
-    Result := 1;
 end;
 
 { TDadosItemPedido }

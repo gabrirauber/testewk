@@ -40,18 +40,32 @@ implementation
 { TdmBaseCadastro }
 
 function TdmBaseCadastro.ExcluirCadastro(ID: Integer): Boolean;
+var
+  Erro: String;
 begin
-  Result := FMethods.ExcluirCadastro(ID);
+  Erro := '';
+  Result := FMethods.ExcluirCadastro(ID, Erro);
+  if Erro <> '' then
+    raise Exception.Create('Erro ao Excluir cadastro: ' + Erro);
 end;
 
 procedure TdmBaseCadastro.RetornaDadosCadastro(ID: Integer);
+var
+  Erro: String;
 begin
-  JsonRetornadoConsulta := FMethods.RetornaDadosCadastro(ID);
+  Erro := '';
+  JsonRetornadoConsulta := FMethods.RetornaDadosCadastro(ID, Erro);
+  if Erro <> '' then
+    raise Exception.Create('Erro ao Consultar cadastro: ' + Erro);
 end;
 
 function TdmBaseCadastro.SalvarCadastro: Boolean;
+var
+  Erro: String;
 begin
-  Result := FMethods.SalvarCadastro(JsonSalvar);
+  Result := FMethods.SalvarCadastro(JsonSalvar, Erro);
+  if Erro <> '' then
+    raise Exception.Create('Erro ao Salvar cadastro: ' + Erro);
 end;
 
 end.

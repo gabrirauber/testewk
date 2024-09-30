@@ -1,7 +1,7 @@
 inherited frmBaseCadastro: TfrmBaseCadastro
   Caption = 'frmBaseCadastro'
-  ClientHeight = 642
-  ClientWidth = 872
+  ClientHeight = 641
+  ClientWidth = 868
   WindowState = wsMaximized
   ExplicitWidth = 884
   ExplicitHeight = 680
@@ -9,14 +9,10 @@ inherited frmBaseCadastro: TfrmBaseCadastro
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 872
-    Height = 642
+    Width = 868
+    Height = 641
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 352
-    ExplicitTop = 320
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object pnlControle: TPanel
       Left = 1
       Top = 584
@@ -24,6 +20,8 @@ inherited frmBaseCadastro: TfrmBaseCadastro
       Height = 57
       Align = alBottom
       TabOrder = 0
+      ExplicitTop = 583
+      ExplicitWidth = 866
       object btnCancelar: TButton
         Left = 192
         Top = 16

@@ -66,8 +66,13 @@ end;
 procedure TfrmBaseConsulta.btnSelecionarClick(Sender: TObject);
 begin
   inherited;
-  Selecionar;
-  ModalResult := mrOk;
+  if (grdConsulta.RowCount > 1) and (grdConsulta.Row > 0) then
+  begin
+    Selecionar;
+    ModalResult := mrOk;
+  end
+  else
+    ShowMessage('Nenhum item selecionado!');
 end;
 
 procedure TfrmBaseConsulta.CorrigirTamanhoColunas;
@@ -108,8 +113,13 @@ procedure TfrmBaseConsulta.RealizarConsulta(Filtro: String);
 var
   DadosConsulta: TJSONObject;
   I: Integer;
+  Erro: String;
 begin
-  DadosConsulta := TJSONObject.ParseJSONValue(FMethods.RetornaDadosConsulta(Filtro)) as TJSONObject;
+  Erro := '';
+  DadosConsulta := TJSONObject.ParseJSONValue(FMethods.RetornaDadosConsulta(Filtro, Erro)) as TJSONObject;
+  if Erro <> '' then
+    raise Exception.Create('Erro ao realizar consulta: ' + Erro);
+
   MontarCabecalho(DadosConsulta.GetValue<TJSONArray>('cabecalho'));
   grdConsulta.RowCount := DadosConsulta.GetValue<TJSONArray>('dados').Count + 1;
   for I := 0 to DadosConsulta.GetValue<TJSONArray>('dados').Count -1 do

@@ -39,9 +39,9 @@ implementation
 
 function TdmCadPedidoVenda.ExcluirDados(ID: Integer): Boolean;
 begin
-  Result := True;
   TConnectionManager.GetDMConexao.fdConexao.StartTransaction;
   try
+    Result := True;
     qryCadastro.SQL.Text := 'DELETE FROM PEDIDOITENS ' +
                             ' WHERE IDPEDIDO = :IDPEDIDO';
     qryCadastro.ParamByName('idpedido').AsInteger := ID;
@@ -54,8 +54,12 @@ begin
 
     TConnectionManager.GetDMConexao.fdConexao.Commit;
   except
-    Result := False;
-    TConnectionManager.GetDMConexao.fdConexao.Rollback;
+    on E: Exception do
+    begin
+      Result := False;
+      TConnectionManager.GetDMConexao.fdConexao.Rollback;
+      raise Exception.Create(E.Message);
+    end;
   end;
 end;
 
@@ -114,7 +118,7 @@ begin
       Item.Produto.Descricao := qryConsulta.FieldByName('DESCRICAO').AsString;
       Item.Produto.PrecoVenda := qryConsulta.FieldByName('PRECOVENDA').AsCurrency;
 
-      Pedido.InserirItem(Item);
+      Pedido.InserirItem(Item, -1);
 
       qryConsulta.Next;
     end;
@@ -166,8 +170,12 @@ begin
     SalvarItens(Pedido);
     TConnectionManager.GetDMConexao.fdConexao.Commit;
   except
-    Result := False;
-    TConnectionManager.GetDMConexao.fdConexao.Rollback;
+    on E: Exception do
+    begin
+      Result := False;
+      TConnectionManager.GetDMConexao.fdConexao.Rollback;
+      raise Exception.Create(E.Message);
+    end;
   end;
 end;
 

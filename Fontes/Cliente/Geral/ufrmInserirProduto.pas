@@ -13,7 +13,7 @@ type
     pnlControle: TPanel;
     btnCancelar: TButton;
     btnAdicionar: TButton;
-    Panel1: TPanel;
+    pnlDados: TPanel;
     edtProduto: TSpinEdit;
     btnConsultarProduto: TButton;
     edtDescricao: TEdit;

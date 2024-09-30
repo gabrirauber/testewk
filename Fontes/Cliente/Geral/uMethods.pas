@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 30/09/2024 00:45:16
+// 30/09/2024 16:42:07
 //
 
 unit uMethods;
@@ -36,9 +36,9 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function SalvarCadastro(Json: string; const ARequestFilter: string = ''): Boolean;
-    function ExcluirCadastro(ID: Integer; const ARequestFilter: string = ''): Boolean;
-    function RetornaDadosCadastro(ID: Integer; const ARequestFilter: string = ''): string;
+    function SalvarCadastro(Json: string; var Erro: string; const ARequestFilter: string = ''): Boolean;
+    function ExcluirCadastro(ID: Integer; var Erro: string; const ARequestFilter: string = ''): Boolean;
+    function RetornaDadosCadastro(ID: Integer; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -54,7 +54,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function RetornaDadosConsulta(Filtro: string; const ARequestFilter: string = ''): string;
+    function RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -74,9 +74,9 @@ type
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     function RetornaDadosCliente(ID: Integer; const ARequestFilter: string = ''): string;
-    function SalvarCadastro(Json: string; const ARequestFilter: string = ''): Boolean;
-    function ExcluirCadastro(ID: Integer; const ARequestFilter: string = ''): Boolean;
-    function RetornaDadosCadastro(ID: Integer; const ARequestFilter: string = ''): string;
+    function SalvarCadastro(Json: string; var Erro: string; const ARequestFilter: string = ''): Boolean;
+    function ExcluirCadastro(ID: Integer; var Erro: string; const ARequestFilter: string = ''): Boolean;
+    function RetornaDadosCadastro(ID: Integer; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -92,7 +92,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function RetornaDadosConsulta(Filtro: string; const ARequestFilter: string = ''): string;
+    function RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -108,7 +108,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function RetornaDadosConsulta(Filtro: string; const ARequestFilter: string = ''): string;
+    function RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -140,7 +140,7 @@ type
     constructor Create(ARestConnection: TDSRestConnection); overload;
     constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function RetornaDadosConsulta(Filtro: string; const ARequestFilter: string = ''): string;
+    function RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string = ''): string;
     procedure DataModuleCreate(Sender: TObject);
     procedure CorrigirTFDQuery;
     function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
@@ -157,21 +157,24 @@ const
     (Name: ''; Direction: 4; DBXType: 7; TypeName: 'Double')
   );
 
-  TdmBaseCadastro_SalvarCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmBaseCadastro_SalvarCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Json'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TdmBaseCadastro_ExcluirCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmBaseCadastro_ExcluirCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ID'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TdmBaseCadastro_RetornaDadosCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmBaseCadastro_RetornaDadosCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ID'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -185,9 +188,10 @@ const
     (Name: ''; Direction: 4; DBXType: 7; TypeName: 'Double')
   );
 
-  TdmBaseConsulta_RetornaDadosConsulta: array [0..1] of TDSRestParameterMetaData =
+  TdmBaseConsulta_RetornaDadosConsulta: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Filtro'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -207,21 +211,24 @@ const
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
-  TdmCadPedidoVenda_SalvarCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmCadPedidoVenda_SalvarCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Json'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TdmCadPedidoVenda_ExcluirCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmCadPedidoVenda_ExcluirCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ID'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 4; TypeName: 'Boolean')
   );
 
-  TdmCadPedidoVenda_RetornaDadosCadastro: array [0..1] of TDSRestParameterMetaData =
+  TdmCadPedidoVenda_RetornaDadosCadastro: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'ID'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -235,9 +242,10 @@ const
     (Name: ''; Direction: 4; DBXType: 7; TypeName: 'Double')
   );
 
-  TdmConsultaCliente_RetornaDadosConsulta: array [0..1] of TDSRestParameterMetaData =
+  TdmConsultaCliente_RetornaDadosConsulta: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Filtro'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -251,9 +259,10 @@ const
     (Name: ''; Direction: 4; DBXType: 7; TypeName: 'Double')
   );
 
-  TdmConsultaProduto_RetornaDadosConsulta: array [0..1] of TDSRestParameterMetaData =
+  TdmConsultaProduto_RetornaDadosConsulta: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Filtro'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -283,9 +292,10 @@ const
     (Name: ''; Direction: 4; DBXType: 7; TypeName: 'Double')
   );
 
-  TdmConsultaPedido_RetornaDadosConsulta: array [0..1] of TDSRestParameterMetaData =
+  TdmConsultaPedido_RetornaDadosConsulta: array [0..2] of TDSRestParameterMetaData =
   (
     (Name: 'Filtro'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: 'Erro'; Direction: 3; DBXType: 26; TypeName: 'string'),
     (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
   );
 
@@ -368,7 +378,7 @@ begin
   inherited;
 end;
 
-function TdmBaseCadastroClient.SalvarCadastro(Json: string; const ARequestFilter: string): Boolean;
+function TdmBaseCadastroClient.SalvarCadastro(Json: string; var Erro: string; const ARequestFilter: string): Boolean;
 begin
   if FSalvarCadastroCommand = nil then
   begin
@@ -378,11 +388,13 @@ begin
     FSalvarCadastroCommand.Prepare(TdmBaseCadastro_SalvarCadastro);
   end;
   FSalvarCadastroCommand.Parameters[0].Value.SetWideString(Json);
+  FSalvarCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FSalvarCadastroCommand.Execute(ARequestFilter);
-  Result := FSalvarCadastroCommand.Parameters[1].Value.GetBoolean;
+  Erro := FSalvarCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FSalvarCadastroCommand.Parameters[2].Value.GetBoolean;
 end;
 
-function TdmBaseCadastroClient.ExcluirCadastro(ID: Integer; const ARequestFilter: string): Boolean;
+function TdmBaseCadastroClient.ExcluirCadastro(ID: Integer; var Erro: string; const ARequestFilter: string): Boolean;
 begin
   if FExcluirCadastroCommand = nil then
   begin
@@ -392,11 +404,13 @@ begin
     FExcluirCadastroCommand.Prepare(TdmBaseCadastro_ExcluirCadastro);
   end;
   FExcluirCadastroCommand.Parameters[0].Value.SetInt32(ID);
+  FExcluirCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FExcluirCadastroCommand.Execute(ARequestFilter);
-  Result := FExcluirCadastroCommand.Parameters[1].Value.GetBoolean;
+  Erro := FExcluirCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FExcluirCadastroCommand.Parameters[2].Value.GetBoolean;
 end;
 
-function TdmBaseCadastroClient.RetornaDadosCadastro(ID: Integer; const ARequestFilter: string): string;
+function TdmBaseCadastroClient.RetornaDadosCadastro(ID: Integer; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosCadastroCommand = nil then
   begin
@@ -406,8 +420,10 @@ begin
     FRetornaDadosCadastroCommand.Prepare(TdmBaseCadastro_RetornaDadosCadastro);
   end;
   FRetornaDadosCadastroCommand.Parameters[0].Value.SetInt32(ID);
+  FRetornaDadosCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosCadastroCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosCadastroCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosCadastroCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmBaseCadastroClient.DataModuleCreate(Sender: TObject);
@@ -480,7 +496,7 @@ begin
   inherited;
 end;
 
-function TdmBaseConsultaClient.RetornaDadosConsulta(Filtro: string; const ARequestFilter: string): string;
+function TdmBaseConsultaClient.RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosConsultaCommand = nil then
   begin
@@ -490,8 +506,10 @@ begin
     FRetornaDadosConsultaCommand.Prepare(TdmBaseConsulta_RetornaDadosConsulta);
   end;
   FRetornaDadosConsultaCommand.Parameters[0].Value.SetWideString(Filtro);
+  FRetornaDadosConsultaCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosConsultaCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosConsultaCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmBaseConsultaClient.DataModuleCreate(Sender: TObject);
@@ -576,7 +594,7 @@ begin
   Result := FRetornaDadosClienteCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TdmCadPedidoVendaClient.SalvarCadastro(Json: string; const ARequestFilter: string): Boolean;
+function TdmCadPedidoVendaClient.SalvarCadastro(Json: string; var Erro: string; const ARequestFilter: string): Boolean;
 begin
   if FSalvarCadastroCommand = nil then
   begin
@@ -586,11 +604,13 @@ begin
     FSalvarCadastroCommand.Prepare(TdmCadPedidoVenda_SalvarCadastro);
   end;
   FSalvarCadastroCommand.Parameters[0].Value.SetWideString(Json);
+  FSalvarCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FSalvarCadastroCommand.Execute(ARequestFilter);
-  Result := FSalvarCadastroCommand.Parameters[1].Value.GetBoolean;
+  Erro := FSalvarCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FSalvarCadastroCommand.Parameters[2].Value.GetBoolean;
 end;
 
-function TdmCadPedidoVendaClient.ExcluirCadastro(ID: Integer; const ARequestFilter: string): Boolean;
+function TdmCadPedidoVendaClient.ExcluirCadastro(ID: Integer; var Erro: string; const ARequestFilter: string): Boolean;
 begin
   if FExcluirCadastroCommand = nil then
   begin
@@ -600,11 +620,13 @@ begin
     FExcluirCadastroCommand.Prepare(TdmCadPedidoVenda_ExcluirCadastro);
   end;
   FExcluirCadastroCommand.Parameters[0].Value.SetInt32(ID);
+  FExcluirCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FExcluirCadastroCommand.Execute(ARequestFilter);
-  Result := FExcluirCadastroCommand.Parameters[1].Value.GetBoolean;
+  Erro := FExcluirCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FExcluirCadastroCommand.Parameters[2].Value.GetBoolean;
 end;
 
-function TdmCadPedidoVendaClient.RetornaDadosCadastro(ID: Integer; const ARequestFilter: string): string;
+function TdmCadPedidoVendaClient.RetornaDadosCadastro(ID: Integer; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosCadastroCommand = nil then
   begin
@@ -614,8 +636,10 @@ begin
     FRetornaDadosCadastroCommand.Prepare(TdmCadPedidoVenda_RetornaDadosCadastro);
   end;
   FRetornaDadosCadastroCommand.Parameters[0].Value.SetInt32(ID);
+  FRetornaDadosCadastroCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosCadastroCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosCadastroCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosCadastroCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosCadastroCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmCadPedidoVendaClient.DataModuleCreate(Sender: TObject);
@@ -689,7 +713,7 @@ begin
   inherited;
 end;
 
-function TdmConsultaClienteClient.RetornaDadosConsulta(Filtro: string; const ARequestFilter: string): string;
+function TdmConsultaClienteClient.RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosConsultaCommand = nil then
   begin
@@ -699,8 +723,10 @@ begin
     FRetornaDadosConsultaCommand.Prepare(TdmConsultaCliente_RetornaDadosConsulta);
   end;
   FRetornaDadosConsultaCommand.Parameters[0].Value.SetWideString(Filtro);
+  FRetornaDadosConsultaCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosConsultaCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosConsultaCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmConsultaClienteClient.DataModuleCreate(Sender: TObject);
@@ -771,7 +797,7 @@ begin
   inherited;
 end;
 
-function TdmConsultaProdutoClient.RetornaDadosConsulta(Filtro: string; const ARequestFilter: string): string;
+function TdmConsultaProdutoClient.RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosConsultaCommand = nil then
   begin
@@ -781,8 +807,10 @@ begin
     FRetornaDadosConsultaCommand.Prepare(TdmConsultaProduto_RetornaDadosConsulta);
   end;
   FRetornaDadosConsultaCommand.Parameters[0].Value.SetWideString(Filtro);
+  FRetornaDadosConsultaCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosConsultaCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosConsultaCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmConsultaProdutoClient.DataModuleCreate(Sender: TObject);
@@ -935,7 +963,7 @@ begin
   inherited;
 end;
 
-function TdmConsultaPedidoClient.RetornaDadosConsulta(Filtro: string; const ARequestFilter: string): string;
+function TdmConsultaPedidoClient.RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string): string;
 begin
   if FRetornaDadosConsultaCommand = nil then
   begin
@@ -945,8 +973,10 @@ begin
     FRetornaDadosConsultaCommand.Prepare(TdmConsultaPedido_RetornaDadosConsulta);
   end;
   FRetornaDadosConsultaCommand.Parameters[0].Value.SetWideString(Filtro);
+  FRetornaDadosConsultaCommand.Parameters[1].Value.SetWideString(Erro);
   FRetornaDadosConsultaCommand.Execute(ARequestFilter);
-  Result := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Erro := FRetornaDadosConsultaCommand.Parameters[1].Value.GetWideString;
+  Result := FRetornaDadosConsultaCommand.Parameters[2].Value.GetWideString;
 end;
 
 procedure TdmConsultaPedidoClient.DataModuleCreate(Sender: TObject);

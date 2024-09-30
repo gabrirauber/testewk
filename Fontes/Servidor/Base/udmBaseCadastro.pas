@@ -21,9 +21,9 @@ type
     function RetornaDados(ID: Integer): String;virtual;
   public
     { Public declarations }
-    function SalvarCadastro(Json: String): Boolean;
-    function ExcluirCadastro(ID: Integer): Boolean;
-    function RetornaDadosCadastro(ID: Integer): String;
+    function SalvarCadastro(Json: String; var Erro: string): Boolean;
+    function ExcluirCadastro(ID: Integer; var Erro: string): Boolean;
+    function RetornaDadosCadastro(ID: Integer; var Erro: string): String;
   end;
 {$METHODINFO OFF}
 var
@@ -42,9 +42,14 @@ implementation
 
 { TdmBaseCadastro }
 
-function TdmBaseCadastro.ExcluirCadastro(ID: Integer): Boolean;
+function TdmBaseCadastro.ExcluirCadastro(ID: Integer; var Erro: string): Boolean;
 begin
+  try
     Result := ExcluirDados(ID);
+  except
+    on E: Exception do
+      Erro := E.Message;
+  end;
 end;
 
 function TdmBaseCadastro.ExcluirDados(ID: Integer): Boolean;
@@ -57,14 +62,24 @@ begin
 
 end;
 
-function TdmBaseCadastro.RetornaDadosCadastro(ID: Integer): String;
+function TdmBaseCadastro.RetornaDadosCadastro(ID: Integer; var Erro: string): String;
 begin
-  Result := RetornaDados(ID);
+  try
+    Result := RetornaDados(ID);
+  except
+    on E: Exception do
+      Erro := E.Message;
+  end;
 end;
 
-function TdmBaseCadastro.SalvarCadastro(Json: String): Boolean;
+function TdmBaseCadastro.SalvarCadastro(Json: String; var Erro: string): Boolean;
 begin
-  Result := SalvarDados(Json);
+  try
+    Result := SalvarDados(Json);
+  except
+    on E: Exception do
+      Erro := E.Message;
+  end;
 end;
 
 function TdmBaseCadastro.SalvarDados(Json: String): Boolean;

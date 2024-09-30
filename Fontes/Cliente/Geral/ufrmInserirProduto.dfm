@@ -12,7 +12,7 @@ inherited frmInserirProduto: TfrmInserirProduto
     Width = 447
     Height = 57
     Align = alBottom
-    TabOrder = 0
+    TabOrder = 1
     ExplicitTop = 203
     ExplicitWidth = 443
     object btnCancelar: TButton
@@ -21,7 +21,7 @@ inherited frmInserirProduto: TfrmInserirProduto
       Width = 129
       Height = 25
       Caption = 'Cancelar'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnCancelarClick
     end
     object btnAdicionar: TButton
@@ -30,17 +30,17 @@ inherited frmInserirProduto: TfrmInserirProduto
       Width = 129
       Height = 25
       Caption = 'Adicionar'
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnAdicionarClick
     end
   end
-  object Panel1: TPanel
+  object pnlDados: TPanel
     Left = 0
     Top = 0
     Width = 447
     Height = 204
     Align = alClient
-    TabOrder = 1
+    TabOrder = 0
     ExplicitWidth = 443
     ExplicitHeight = 203
     object Label1: TLabel

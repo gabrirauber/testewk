@@ -24,7 +24,7 @@ type
     btnIncluirProd: TButton;
     btnEditarProd: TButton;
     btnExcluirProd: TButton;
-    Panel1: TPanel;
+    pnlTotal: TPanel;
     edtValorTotal: TEdit;
     edtCliente: TSpinEdit;
     Label1: TLabel;
@@ -75,6 +75,8 @@ procedure TfrmPedidoVenda.AjustarEstadoBotoes(Estado: Boolean);
 begin
   btnLocalizarPedido.Visible := Estado;
   btnExcluirPedido.Visible := Estado;
+  edtCliente.Enabled := Estado;
+  btnConsularCliente.Enabled := Estado;
 end;
 
 procedure TfrmPedidoVenda.AtualizarItemGrid(Linha: Integer;
@@ -85,7 +87,6 @@ begin
   grdItens.Cells[2, Linha] := FloatToStr(Item.Quantidade);
   grdItens.Cells[3, Linha] := AjustarValorString(Item.ValorUnitario);
   grdItens.Cells[4, Linha] := AjustarValorString(Item.ValorTotal);
-  grdItens.Cells[5, Linha] := Item.TempID.ToString;
 end;
 
 procedure TfrmPedidoVenda.btnConsularClienteClick(Sender: TObject);
@@ -151,7 +152,7 @@ begin
   Form := TfrmInserirProduto.Create(Self);
   if Form.ShowModal = mrOk then
   begin
-    Pedido.InserirItem(Form.ItemRetorno);
+    Pedido.InserirItem(Form.ItemRetorno, grdItens.RowCount);
     InserirItemGrid(Form.ItemRetorno);
     CorrigirValorTotal;
   end;
@@ -211,7 +212,7 @@ begin
   Item := nil;
   for I := 0 to Length(Pedido.Itens) -1 do
   begin
-    if Pedido.Itens[I].TempID = StrToInt(grdItens.Cells[5,grdItens.Row]) then
+    if Pedido.Itens[I].IndexGrid = grdItens.Row then
     begin
       Item := Pedido.Itens[I];
       Break;
@@ -228,10 +229,9 @@ begin
       AtualizarItemGrid(grdItens.Row, Form.ItemRetorno);
       CorrigirValorTotal;
     end;
-  end;
-
-
-
+  end
+  else
+    ShowMessage('Erro ao localizar item');
 
 end;
 
@@ -284,15 +284,20 @@ begin
     Item := nil;
     for I := 0 to Length(Pedido.Itens) -1 do
     begin
-      if Pedido.Itens[I].TempID = StrToInt(grdItens.Cells[5,grdItens.Row]) then
+      if Pedido.Itens[I].IndexGrid = grdItens.Row then
       begin
         Item := Pedido.Itens[I];
         Break;
       end;
     end;
-    Pedido.CancelarItem(Item);
-    ExcluirItemGrid(grdItens.Row);
-    CorrigirValorTotal;
+    if Assigned(Item) then
+    begin
+      Pedido.CancelarItem(Item);
+      ExcluirItemGrid(grdItens.Row);
+      CorrigirValorTotal;
+    end
+    else
+      ShowMessage('Erro ao localizar item');
   end;
 end;
 
@@ -300,9 +305,9 @@ procedure TfrmPedidoVenda.ExcluirItemGrid(Linha: Integer);
 var
   I: Integer;
 begin
-   for I := Linha to grdItens.RowCount - 2 do
-      grdItens.Rows[I] := grdItens.Rows[I + 1];
-    grdItens.RowCount := grdItens.RowCount - 1;
+  for I := Linha to grdItens.RowCount - 2 do
+    grdItens.Rows[I] := grdItens.Rows[I + 1];
+  grdItens.RowCount := grdItens.RowCount - 1;
 end;
 
 procedure TfrmPedidoVenda.FormCreate(Sender: TObject);
@@ -358,6 +363,7 @@ begin
   grdItens.RowCount := grdItens.RowCount + 1;
   Indice := grdItens.RowCount - 1;
   AtualizarItemGrid(Indice, Item);
+  Item.IndexGrid := Indice;
 end;
 
 procedure TfrmPedidoVenda.LimparEdicao;

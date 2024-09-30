@@ -8,12 +8,12 @@ uses
 type
 
   IBaseCadastro = interface
-    function SalvarCadastro(Json: string; const ARequestFilter: string = ''): Boolean;
-    function ExcluirCadastro(ID: Integer; const ARequestFilter: string = ''): Boolean;
-    function RetornaDadosCadastro(ID: Integer; const ARequestFilter: string = ''): string;
+    function SalvarCadastro(Json: string; var Erro: String; const ARequestFilter: string = ''): Boolean;
+    function ExcluirCadastro(ID: Integer; var Erro: String; const ARequestFilter: string = ''): Boolean;
+    function RetornaDadosCadastro(ID: Integer; var Erro: String; const ARequestFilter: string = ''): string;
   end;
   IBaseConsulta = interface
-    function RetornaDadosConsulta(Filtro: string; const ARequestFilter: string = ''): string;
+    function RetornaDadosConsulta(Filtro: string; var Erro: string; const ARequestFilter: string = ''): string;
   end;
 
 

@@ -3,8 +3,8 @@ inherited frmBaseConsulta: TfrmBaseConsulta
   ClientHeight = 535
   ClientWidth = 643
   OnClose = FormClose
-  ExplicitWidth = 659
-  ExplicitHeight = 574
+  ExplicitWidth = 655
+  ExplicitHeight = 573
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -13,22 +13,24 @@ inherited frmBaseConsulta: TfrmBaseConsulta
     Height = 535
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 639
+    ExplicitHeight = 534
     object pnlControle: TPanel
       Left = 1
-      Top = 478
-      Width = 645
+      Top = 477
+      Width = 641
       Height = 57
       Align = alBottom
-      TabOrder = 0
-      ExplicitTop = 477
-      ExplicitWidth = 641
+      TabOrder = 2
+      ExplicitTop = 476
+      ExplicitWidth = 637
       object btnCancelar: TButton
         Left = 293
         Top = 16
         Width = 129
         Height = 25
         Caption = 'Cancelar'
-        TabOrder = 0
+        TabOrder = 1
         OnClick = btnCancelarClick
       end
       object btnSelecionar: TButton
@@ -37,15 +39,15 @@ inherited frmBaseConsulta: TfrmBaseConsulta
         Width = 129
         Height = 25
         Caption = 'Selecionar'
-        TabOrder = 1
+        TabOrder = 0
         OnClick = btnSelecionarClick
       end
     end
     object grdConsulta: TStringGrid
       Left = 1
       Top = 57
-      Width = 645
-      Height = 421
+      Width = 641
+      Height = 420
       Align = alClient
       ColCount = 1
       FixedCols = 0
@@ -53,17 +55,17 @@ inherited frmBaseConsulta: TfrmBaseConsulta
       FixedRows = 0
       TabOrder = 1
       OnKeyDown = grdConsultaKeyDown
-      ExplicitTop = 1
-      ExplicitWidth = 641
-      ExplicitHeight = 476
+      ExplicitWidth = 637
+      ExplicitHeight = 419
     end
     object Panel2: TPanel
       Left = 1
       Top = 1
-      Width = 645
+      Width = 641
       Height = 56
       Align = alTop
-      TabOrder = 2
+      TabOrder = 0
+      ExplicitWidth = 637
       object Label1: TLabel
         Left = 7
         Top = 8
