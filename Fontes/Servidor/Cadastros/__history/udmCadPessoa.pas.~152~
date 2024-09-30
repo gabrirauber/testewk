@@ -1,0 +1,302 @@
+unit udmCadPessoa;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBaseCadastro, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, uClasses, Rest.Json,
+  System.JSON, System.Generics.Collections, Data.FireDACJSONReflect;
+
+type
+{$METHODINFO ON}
+  TdmCadPessoa = class(TdmBaseCadastro)
+    qryEnderecos: TFDQuery;
+  private
+    { Private declarations }
+    procedure InserirEndereco(DadoEndereco: TInserirEndereco; IDPessoa: Integer; InserirTabEndereco: Boolean = True);
+    procedure InserirPessoa(DadoPessoa: TInserirPessoa);
+    procedure AlterarEndereco(DadoEndereco: TAlterarEndereco);
+    function MontarPessoa(Linha: String): TInserirPessoa;
+  protected
+    function InserirDados(Json: String): Boolean;override;
+    function AlterarDados(Json: String): Boolean;override;
+    function ExcluirDados(Json: String): Boolean;override;
+    function RetornaCadatro(ID: Integer): TFDJSONDataSets;override;
+  protected
+    procedure ConfigurarCadastro;override;
+  public
+    { Public declarations }
+    Procedure updateProcessarDados(Dados: String);
+  end;
+{$METHODINFO OFF}
+var
+  dmCadPessoa: TdmCadPessoa;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmCadPessoa }
+
+function TdmCadPessoa.AlterarDados(Json: String): Boolean;
+var
+  DadoPessoa: TAlterarPessoa;
+  DadoInserirEndereco: TInserirEndereco;
+  I: Integer;
+
+  procedure InserirEnderecoAlterando(InserirTabEndereco: Boolean);
+  begin
+    DadoInserirEndereco := TInserirEndereco.Create;
+    try
+      DadoInserirEndereco.CEP := DadoPessoa.Enderecos[I].CEP;
+      DadoInserirEndereco.UF := DadoPessoa.Enderecos[I].UF;
+      DadoInserirEndereco.Cidade := DadoPessoa.Enderecos[I].Cidade;
+      DadoInserirEndereco.Bairro := DadoPessoa.Enderecos[I].Bairro;
+      DadoInserirEndereco.Logradouro := DadoPessoa.Enderecos[I].Logradouro;
+      DadoInserirEndereco.complemento := DadoPessoa.Enderecos[I].complemento;
+      InserirEndereco(DadoInserirEndereco,DadoPessoa.IDPessoa, InserirTabEndereco);
+    finally
+      DadoInserirEndereco.Free;
+    end;
+  end;
+begin
+  Result := True;
+  try
+    DadoPessoa := TJson.JsonToObject<TAlterarPessoa>(Json);
+    try
+      qryCadastro.Open('SELECT * FROM PESSOA WHERE IDPESSOA = ' + DadoPessoa.IDPessoa.ToString);
+      qryCadastro.Edit;
+      qryCadastro.FieldByName('flnatureza').AsInteger := DadoPessoa.Natureza;
+      qryCadastro.FieldByName('dsdocumento').AsString := DadoPessoa.Documento;
+      qryCadastro.FieldByName('nmprimeiro').AsString := DadoPessoa.PrimeiroNome;
+      qryCadastro.FieldByName('nmsegundo').AsString := DadoPessoa.SegundoNome;
+      qryCadastro.ApplyUpdates();
+      for I := 0 to Length(DadoPessoa.Enderecos) - 1 do
+      begin
+        if DadoPessoa.Enderecos[I].IDEndereco = 0 then
+          InserirEnderecoAlterando(True)
+        else
+        begin
+          qryEnderecos.Open('SELECT * ' +
+                            'FROM ENDERECO_INTEGRACAO ' +
+                            'WHERE IDENDERECO = ' + DadoPessoa.Enderecos[I].IDEndereco.ToString);
+          if qryEnderecos.RecordCount = 0 then
+            InserirEnderecoAlterando(True)
+          else
+            AlterarEndereco(DadoPessoa.Enderecos[I])
+        end;
+      end;
+    finally
+      DadoPessoa.Free;
+    end;
+  except
+      raise;
+  end;
+end;
+
+procedure TdmCadPessoa.AlterarEndereco(DadoEndereco: TAlterarEndereco);
+begin
+  qryCadastro.Open('SELECT * FROM endereco_integracao WHERE idendereco = ' + DadoEndereco.IDEndereco.ToString);
+  qryCadastro.Edit;
+  qryCadastro.FieldByName('dsuf').AsString := DadoEndereco.UF;
+  qryCadastro.FieldByName('nmcidade').AsString := DadoEndereco.Cidade;
+  qryCadastro.FieldByName('nmbairro').AsString := DadoEndereco.Bairro;
+  qryCadastro.FieldByName('nmlogradouro').AsString := DadoEndereco.Logradouro;
+  qryCadastro.FieldByName('dscomplemento').AsString := DadoEndereco.complemento;
+  qryCadastro.ApplyUpdates();
+  qryCadastro.Open('SELECT * FROM endereco WHERE idendereco = ' + DadoEndereco.IDEndereco.ToString);
+  qryCadastro.Edit;
+  qryCadastro.FieldByName('dscep').AsString := DadoEndereco.CEP;
+  qryCadastro.ApplyUpdates();
+end;
+
+
+
+function TdmCadPessoa.ExcluirDados(Json: String): Boolean;
+var
+  DadoPessoa: TExcluirPessoa;
+  JSonValue, aux: TJSONValue;
+  DadoEndereco: TExcluirEndereco;
+begin
+  Result := True;
+  try
+    JSonValue := TJSONObject.ParseJSONValue(Json);
+    try
+      if JSonValue.TryGetValue('iDpessoa', aux) then
+      begin
+        DadoPessoa := TJson.JsonToObject<TExcluirPessoa>(Json);
+        try
+          qryCadastro.SQL.Text := 'DELETE FROM PESSOA ' +
+                                   ' WHERE IDPESSOA = ' + DadoPessoa.IDpessoa.ToString;
+          qryCadastro.ExecSQL;
+        finally
+          DadoPessoa.Free;
+        end;
+      end
+      else
+      begin
+        DadoEndereco := TJson.JsonToObject<TExcluirEndereco>(Json);
+        try
+          qryCadastro.SQL.Text := 'DELETE FROM ENDERECO ' +
+                                   ' WHERE IDENDERECO = ' + DadoEndereco.IDEndereco.ToString;
+          qryCadastro.ExecSQL;
+        finally
+          DadoEndereco.Free;
+        end;
+      end;
+    finally
+      JSonValue.Free;
+    end;
+  except
+    raise;
+  end;
+
+end;
+
+function TdmCadPessoa.InserirDados(Json: String): Boolean;
+var
+  DadoPessoa: TInserirPessoa;
+begin
+  Result := True;
+  try
+    DadoPessoa := TJson.JsonToObject<TInserirPessoa>(Json);
+    try
+      InserirPessoa(DadoPessoa);
+    finally
+      DadoPessoa.Free;
+    end;
+  except
+    raise;
+  end;
+
+end;
+
+procedure TdmCadPessoa.InserirEndereco(DadoEndereco: TInserirEndereco;
+  IDPessoa: Integer; InserirTabEndereco: Boolean = True);
+var
+  IDEndereco: Integer;
+begin
+
+  qryCadastro.SQL.Text := 'INSERT INTO endereco(idpessoa, ' +
+                          '                    dscep) ' +
+                          ' VALUES (:idpessoa, ' +
+                          '         :dscep) '+
+                          'RETURNING idendereco';
+  qryCadastro.Params.ParamByName('idpessoa').AsInteger := IDPessoa;
+  qryCadastro.Params.ParamByName('dscep').AsString := DadoEndereco.CEP;
+  qryCadastro.Open;
+
+  IDEndereco := qryCadastro.FieldByName('IDEndereco').AsInteger;
+  if DadoEndereco.Cidade <> '' then
+  begin
+    qryCadastro.Open('SELECT * FROM endereco_integracao WHERE 1=0');
+    qryCadastro.Append;
+    qryCadastro.FieldByName('dsuf').AsString := DadoEndereco.UF;
+    qryCadastro.FieldByName('idendereco').AsInteger := IDEndereco;
+    qryCadastro.FieldByName('nmcidade').AsString := DadoEndereco.Cidade;
+    qryCadastro.FieldByName('nmbairro').AsString := DadoEndereco.Bairro;
+    qryCadastro.FieldByName('nmlogradouro').AsString := DadoEndereco.Logradouro;
+    qryCadastro.FieldByName('dscomplemento').AsString := DadoEndereco.complemento;
+    qryCadastro.ApplyUpdates();
+  end;
+end;
+
+procedure TdmCadPessoa.InserirPessoa(DadoPessoa: TInserirPessoa);
+var
+  IDPessoa, I: Integer;
+begin
+  qryCadastro.SQL.Text := 'INSERT INTO PESSOA (flnatureza, ' +
+                              '                    dsdocumento, ' +
+                              '                    nmprimeiro, ' +
+                              '                    nmsegundo, ' +
+                              '                    dtregistro) ' +
+                              ' VALUES (:flnatureza, ' +
+                              '         :dsdocumento, ' +
+                              '         :nmprimeiro, ' +
+                              '         :nmsegundo, ' +
+                              '         :dtregistro) '+
+                              'RETURNING idpessoa';
+  qryCadastro.Params.ParamByName('flnatureza').AsInteger := DadoPessoa.Natureza;
+  qryCadastro.Params.ParamByName('dsdocumento').AsString := DadoPessoa.Documento;
+  qryCadastro.Params.ParamByName('nmprimeiro').AsString := DadoPessoa.PrimeiroNome;
+  qryCadastro.Params.ParamByName('nmsegundo').AsString := DadoPessoa.SegundoNome;
+  qryCadastro.Params.ParamByName('dtregistro').AsDateTime := Date;
+  qryCadastro.Open;
+
+  IDPessoa := qryCadastro.FieldByName('idpessoa').AsInteger;
+
+  for I := 0 to Length(DadoPessoa.Enderecos) -1 do
+    InserirEndereco(DadoPessoa.Enderecos[I],IDPessoa);
+end;
+
+function TdmCadPessoa.MontarPessoa(Linha: String): TInserirPessoa;
+const
+  Nome = 1;
+  Sobrenome = 2;
+  cpfcnpj = 3;
+  cep = 4;
+  flag = 5;
+var
+  Campo: Integer;
+  Enderecos: TListaInserirEndereco;
+begin
+  Campo := 1;
+  Result := TInserirPessoa.Create;
+  while Linha <> '' do
+  begin
+    case Campo of
+      Nome: Result.PrimeiroNome := Copy(Linha, 1, pos(';', Linha) -1);
+      Sobrenome: Result.SegundoNome := Copy(Linha, 1, pos(';', Linha) -1);
+      cpfcnpj: Result.Documento := Copy(Linha, 1, pos(';', Linha) -1);
+      flag: Result.Natureza := StrToInt(Copy(Linha, 1, pos(';', Linha) -1));
+      cep:begin
+        Enderecos := Result.Enderecos;
+        SetLength(Enderecos, 1);
+        Enderecos[0] := TInserirEndereco.Create;
+        Enderecos[0].CEP := Copy(Linha, 1, pos(';', Linha) -1);
+        Result.Enderecos := Enderecos;
+      end;
+    end;
+    Inc(Campo);
+    Linha := Copy(Linha, pos(';', Linha) +1, Length(Linha));
+  end;
+end;
+
+procedure TdmCadPessoa.updateProcessarDados(Dados: String);
+var
+  Registros: TStringList;
+  DadosPessoa: TInserirPessoa;
+  I: Integer;
+begin
+  Registros := TStringList.Create;
+  Registros.Text := Dados;
+  for I := 0 to Registros.Count -1 do
+  begin
+    DadosPessoa := MontarPessoa(Registros[I]);
+    InserirPessoa(DadosPessoa);
+  end;
+end;
+
+function TdmCadPessoa.RetornaCadatro(ID: Integer): TFDJSONDataSets;
+begin
+  Result := inherited;
+
+  qryEnderecos.Open('SELECT *, 0 excluir ' +
+                    'FROM ENDERECO E ' +
+                    'LEFT JOIN ENDERECO_INTEGRACAO EI ON EI.IDENDERECO = E.IDENDERECO ' +
+                    'WHERE E.IDPESSOA = ' + ID.ToString);
+
+  TFDJSONDataSetsWriter.ListAdd(Result,'qryEndereco', qryEnderecos);
+end;
+
+procedure TdmCadPessoa.ConfigurarCadastro;
+begin
+  inherited;
+  QueryDictionary.add(qryCadastro, 'pessoa');
+end;
+
+end.

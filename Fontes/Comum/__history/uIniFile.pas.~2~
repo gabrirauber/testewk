@@ -1,0 +1,28 @@
+unit uIniFile;
+
+interface
+
+type
+  TArquivoIni = class
+  private
+  public
+    class procedure GravarArquivoIni(Secao, Identificador, Valor: string);
+    class procedure LerArquivoIni(Secao, Identificador, Valor: string);
+  end;
+
+implementation
+
+{ TArquivoIni }
+
+class procedure TArquivoIni.GravarArquivoIni(Secao, Identificador,
+  Valor: string);
+begin
+
+end;
+
+class procedure TArquivoIni.LerArquivoIni(Secao, Identificador, Valor: string);
+begin
+
+end;
+
+end.

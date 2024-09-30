@@ -1,0 +1,145 @@
+unit udmbasecadastro;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBase, FireDAC.Stan.Intf, System.Generics.Collections,
+   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Data.FireDACJSONReflect;
+
+type
+{$METHODINFO ON}
+  TdmBaseCadastro = class(TDMBase)
+    qryCadastro: TFDQuery;
+    qryConsulta: TFDQuery;
+  private
+    function getFQueryDictionary: TDictionary<TFDQuery, string>;
+    { Private declarations }
+  protected
+  property QueryDictionary: TDictionary<TFDQuery, string> read getFQueryDictionary write FQueryDictionary;
+    procedure ConfigurarCadastro;virtual;
+    function InserirDados(Json: String): Boolean;virtual;
+    function AlterarDados(Json: String): Boolean;virtual;
+    function ExcluirDados(Json: String): Boolean;virtual;
+  public
+    { Public declarations }
+    function RetornaCadatro(ID: Integer): TFDJSONDataSets;virtual;
+    function RetornaCadastros(Where: String): TFDJSONDataSets;
+    function updateReqInserirDados(Json: String): Boolean;
+    function updateReqAlterarDados(Json: String): Boolean;
+    function updateReqExcluirDados(Json: String): Boolean;
+  end;
+{$METHODINFO OFF}
+var
+  dmBaseCadastro: TdmBaseCadastro;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmBaseCadastro }
+
+
+function TdmBaseCadastro.AlterarDados(Json: String): Boolean;
+begin
+  Result := False;
+
+end;
+
+procedure TdmBaseCadastro.ConfigurarCadastro;
+begin
+
+end;
+
+
+function TdmBaseCadastro.ExcluirDados(Json: String): Boolean;
+begin
+  Result := False;
+
+end;
+
+function TdmBaseCadastro.getFQueryDictionary: TDictionary<TFDQuery, string>;
+begin
+end;
+
+function TdmBaseCadastro.InserirDados(Json: String): Boolean;
+begin
+  Result := False;
+
+end;
+
+function TdmBaseCadastro.updateReqAlterarDados(Json: String): Boolean;
+begin
+  Result := AlterarDados(Json);
+end;
+
+function TdmBaseCadastro.updateReqExcluirDados(Json: String): Boolean;
+begin
+  Result := ExcluirDados(Json);
+end;
+
+function TdmBaseCadastro.updateReqInserirDados(Json: String): Boolean;
+begin
+  Result := InserirDados(Json);
+end;
+
+function TdmBaseCadastro.RetornaCadastros(Where: String): TFDJSONDataSets;
+var
+  Tabela: String;
+  I: Integer;
+  Filtro: String;
+begin
+  ConfigurarCadastro;
+  if not QueryDictionary.TryGetValue(qryCadastro, Tabela) then
+    raise Exception.Create('Erro ao localizar a tabela da Query!');
+
+  qryConsulta.SQL.Text := 'SELECT * ' +
+                          ' FROM ' + Tabela +
+                          ' WHERE 1=0';
+
+  qryConsulta.Open();
+
+  for I := 0 to qryConsulta.FieldCount -1 do
+  begin
+    case qryConsulta.Fields[i].DataType of
+        ftString,
+        ftWideMemo,
+        ftWideString: Filtro := Filtro + ' OR LOWER(' + qryConsulta.Fields[i].FieldName + ') LIKE ' + QuotedStr('%' + AnsiLowerCase(Where) + '%');
+    end;
+  end;
+
+  qryConsulta.SQL.Text := 'SELECT * ' +
+                          ' FROM ' + Tabela +
+                          ' WHERE 1=1 AND (' + Copy(Filtro,5, Length(Filtro)) + ')';
+
+  qryConsulta.Open();
+
+
+  Result := TFDJSONDataSets.Create;
+  TFDJSONDataSetsWriter.ListAdd(Result, 'qryConsulta', qryConsulta);
+end;
+
+
+
+function TdmBaseCadastro.RetornaCadatro(ID: Integer): TFDJSONDataSets;
+var
+  Tabela: String;
+begin
+  ConfigurarCadastro;
+  if not QueryDictionary.TryGetValue(qryCadastro, Tabela) then
+    raise Exception.Create('Erro ao localizar a tabela da Query!');
+
+  qryConsulta.SQL.Text := 'SELECT * ' +
+                          ' FROM ' + Tabela +
+                          ' WHERE ID' + Tabela + ' = ' + ID.ToString;
+
+  qryConsulta.Open();
+  Result := TFDJSONDataSets.Create;
+  TFDJSONDataSetsWriter.ListAdd(Result, 'qryConsulta', qryConsulta);
+
+end;
+
+end.

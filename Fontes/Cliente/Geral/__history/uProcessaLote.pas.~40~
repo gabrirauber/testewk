@@ -1,0 +1,95 @@
+unit uProcessaLote;
+
+interface
+
+uses
+  System.Classes, uClasses, SysUtils, uMethods, udmConexao, rest.Json;
+
+type
+  TProcessarLoteThread = class(TThread)
+  private
+    FAtivo: Boolean;
+    FArquivo: TStringList;
+    FIndexInicial: Integer;
+    FIndexFinal: Integer;
+    FQuantidade: Integer;
+    function MontarPessoa(Linha: String): TInserirPessoa;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create;
+    property Ativo: Boolean read FAtivo write FAtivo;
+    property Arquivo: TStringList read FArquivo write FArquivo;
+    property IndexInicial: Integer read FIndexInicial write FIndexInicial;
+    property IndexFinal: Integer read FIndexFinal write FIndexFinal;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+  end;
+
+
+implementation
+
+{ TProcessarLoteThread }
+
+constructor TProcessarLoteThread.Create;
+begin
+  inherited Create(True);
+  Ativo := True;
+end;
+
+procedure TProcessarLoteThread.Execute;
+var
+  IndexAtual, I: Integer;
+  Methods: TdmCadPessoaClient;
+  TextoEnvio: TStringList;
+begin
+  inherited;
+  try
+    Methods := TdmCadPessoaClient.Create(dmConexao.rConexao);
+    Quantidade := 0;
+    TextoEnvio := TStringList.Create;
+    for IndexAtual := IndexInicial to IndexFinal do
+    begin
+      TextoEnvio.Add(Arquivo[IndexAtual]);
+      Quantidade := Quantidade +1;
+    end;
+    Methods.updateProcessarDados(TextoEnvio.Text);
+  finally
+    Methods.Free;
+    Ativo := False;
+  end;
+end;
+
+function TProcessarLoteThread.MontarPessoa(Linha: String): TInserirPessoa;
+const
+  Nome = 1;
+  Sobrenome = 2;
+  cpfcnpj = 3;
+  cep = 4;
+  flag = 5;
+var
+  Campo: Integer;
+  Enderecos: TListaInserirEndereco;
+begin
+  Campo := 1;
+  Result := TInserirPessoa.Create;
+  while Linha <> '' do
+  begin
+    case Campo of
+      Nome: Result.PrimeiroNome := Copy(Linha, 1, pos(';', Linha) -1);
+      Sobrenome: Result.SegundoNome := Copy(Linha, 1, pos(';', Linha) -1);
+      cpfcnpj: Result.Documento := Copy(Linha, 1, pos(';', Linha) -1);
+      flag: Result.Natureza := StrToInt(Copy(Linha, 1, pos(';', Linha) -1));
+      cep:begin
+        Enderecos := Result.Enderecos;
+        SetLength(Enderecos, 1);
+        Enderecos[0] := TInserirEndereco.Create;
+        Enderecos[0].CEP := Copy(Linha, 1, pos(';', Linha) -1);
+        Result.Enderecos := Enderecos;
+      end;
+    end;
+    Inc(Campo);
+    Linha := Copy(Linha, pos(';', Linha) +1, Length(Linha));
+  end;
+end;
+
+end.

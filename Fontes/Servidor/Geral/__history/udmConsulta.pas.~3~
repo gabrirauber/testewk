@@ -1,0 +1,34 @@
+unit udmConsulta;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBase;
+
+type
+{$METHODINFO ON}
+  TdmConsulta = class(TDMBase)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function DadosRetornaConsulta(Filtro: String): String;
+  end;
+{$METHODINFO OFF}
+var
+  dmConsulta: TdmConsulta;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmConsulta }
+
+function TdmConsulta.DadosRetornaConsulta(Filtro: String): String;
+begin
+  Result := ''
+end;
+
+end.

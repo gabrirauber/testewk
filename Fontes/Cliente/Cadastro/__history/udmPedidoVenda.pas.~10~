@@ -1,0 +1,43 @@
+unit udmPedidoVenda;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBaseCadastro, uMethods, udmConexao,
+  uClasses, Rest.Json;
+
+type
+  TdmPedidoVenda = class(TdmBaseCadastro)
+  private
+    FPedido: TPedido;
+    { Private declarations }
+  public
+    { Public declarations }
+    function CarregarDadosCliente(ID: Integer): TDadosCliente;
+    property Pedido: TPedido read FPedido write FPedido;
+  end;
+
+var
+  dmPedidoVenda: TdmPedidoVenda;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmPedidoVenda }
+
+function TdmPedidoVenda.CarregarDadosCliente(ID: Integer): TDadosCliente;
+var
+  Methods: TdmCadPedidoVendaClient;
+begin
+  Methods := TdmCadPedidoVendaClient.Create(dmConexao.rConexao);
+  try
+    Result := TJson.JsonToObject<TDadosCliente>(Methods.RetornaDadosCliente(ID));
+  finally
+    Methods.Free;
+  end;
+end;
+
+end.

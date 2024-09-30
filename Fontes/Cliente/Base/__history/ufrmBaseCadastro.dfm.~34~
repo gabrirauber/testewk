@@ -1,0 +1,133 @@
+inherited frmBaseCadastro: TfrmBaseCadastro
+  Caption = 'frmBaseCadastro'
+  ClientHeight = 642
+  ClientWidth = 872
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ExplicitWidth = 884
+  ExplicitHeight = 680
+  TextHeight = 15
+  object pgControle: TPageControl
+    Left = 0
+    Top = 0
+    Width = 872
+    Height = 642
+    ActivePage = tbsConsulta
+    Align = alClient
+    DoubleBuffered = False
+    ParentDoubleBuffered = False
+    ParentShowHint = False
+    ShowHint = False
+    TabOrder = 0
+    ExplicitWidth = 868
+    ExplicitHeight = 641
+    object tbsConsulta: TTabSheet
+      Caption = 'Consulta'
+      object Panel1: TPanel
+        Left = 0
+        Top = 560
+        Width = 864
+        Height = 52
+        Align = alBottom
+        TabOrder = 0
+        ExplicitTop = 559
+        ExplicitWidth = 860
+        object btnEditar: TButton
+          Left = 8
+          Top = 16
+          Width = 75
+          Height = 25
+          Caption = 'Editar'
+          TabOrder = 0
+          OnClick = btnEditarClick
+        end
+        object btnExcluir: TButton
+          Left = 89
+          Top = 16
+          Width = 75
+          Height = 25
+          Caption = 'Excluir'
+          TabOrder = 1
+          OnClick = btnExcluirClick
+        end
+      end
+      object gridConsulta: TDBGrid
+        Left = 0
+        Top = 65
+        Width = 864
+        Height = 495
+        Align = alClient
+        DataSource = dsDados
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+      end
+      object Panel3: TPanel
+        Left = 0
+        Top = 0
+        Width = 864
+        Height = 65
+        Align = alTop
+        TabOrder = 2
+        ExplicitWidth = 860
+        object edtConsultar: TEdit
+          Left = 8
+          Top = 22
+          Width = 505
+          Height = 23
+          TabOrder = 0
+        end
+        object btnConsultar: TButton
+          Left = 519
+          Top = 21
+          Width = 75
+          Height = 25
+          Caption = 'Consultar'
+          TabOrder = 1
+        end
+      end
+    end
+    object tbsCadastro: TTabSheet
+      Caption = 'Dados'
+      ImageIndex = 1
+      object Panel2: TPanel
+        Left = 0
+        Top = 571
+        Width = 864
+        Height = 41
+        Align = alBottom
+        TabOrder = 0
+        object btnSalvar: TButton
+          Left = 40
+          Top = 8
+          Width = 129
+          Height = 25
+          Caption = 'Salvar Cadastro'
+          TabOrder = 0
+          OnClick = btnSalvarClick
+        end
+        object btnCancelar: TButton
+          Left = 192
+          Top = 8
+          Width = 129
+          Height = 25
+          Caption = 'Cancelar'
+          TabOrder = 1
+          OnClick = btnCancelarClick
+        end
+      end
+    end
+  end
+  object dsDados: TDataSource
+    Left = 432
+    Top = 328
+  end
+  object dsCadastro: TDataSource
+    Left = 440
+    Top = 336
+  end
+end

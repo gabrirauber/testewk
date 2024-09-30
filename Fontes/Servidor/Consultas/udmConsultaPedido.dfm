@@ -1,0 +1,2 @@
+inherited dmConsultaPedido: TdmConsultaPedido
+end

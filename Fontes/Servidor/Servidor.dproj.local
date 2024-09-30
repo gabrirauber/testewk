@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/08/14 10:28:07.000.629,=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/14 10:28:28.000.869,C:\TesteDelphi\Gabriel Poletto\Comum\uIniFile.pas=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/14 10:44:34.000.569,C:\TesteDelphi\Gabriel Poletto\Comum\uArquivoIni.pas=C:\TesteDelphi\Gabriel Poletto\Comum\uIniFile.pas</Transaction>
+    <Transaction>2024/08/14 11:04:30.000.138,=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/14 11:05:46.000.837,C:\TesteDelphi\Gabriel Poletto\Comum\uClasses.pas=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/14 11:20:53.000.864,C:\TesteDelphi\Gabriel Poletto\Servidor\Base\udmBaseProprietario.pas=</Transaction>
+    <Transaction>2024/08/14 11:21:03.000.423,C:\TesteDelphi\Gabriel Poletto\Servidor\Cadastros\udmLogin.pas=</Transaction>
+    <Transaction>2024/08/14 11:25:54.000.557,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\udmRelatorios.pas=</Transaction>
+    <Transaction>2024/08/14 11:25:54.000.621,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\ufrmPrincipal.pas=</Transaction>
+    <Transaction>2024/08/14 11:25:54.000.397,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\udmPedidoServico.pas=</Transaction>
+    <Transaction>2024/08/14 11:25:54.000.543,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\udmPrincipal.pas=</Transaction>
+    <Transaction>2024/08/14 11:26:45.000.179,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\uServerMethods.pas=</Transaction>
+    <Transaction>2024/08/14 11:36:20.000.079,=C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\ufrmPrincipal.pas</Transaction>
+    <Transaction>2024/08/14 13:30:16.000.764,=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/14 13:35:12.000.053,C:\TesteDelphi\Gabriel Poletto\Servidor\Cadastros\udmCadPessoa.dfm=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.dfm</Transaction>
+    <Transaction>2024/08/14 13:35:12.000.053,C:\TesteDelphi\Gabriel Poletto\Servidor\Cadastros\udmCadPessoa.pas=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/15 11:59:09.000.643,C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\uComponentsDataSnap.pas=</Transaction>
+    <Transaction>2024/08/15 12:18:53.000.564,=C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/08/15 12:19:04.000.273,C:\TesteDelphi\Gabriel Poletto\Servidor\Unit1.pas=C:\TesteDelphi\Gabriel Poletto\Servidor\Geral\uProcessarCEP.pas</Transaction>
+    <Transaction>2024/08/15 12:28:17.000.961,=C:\TesteDelphi\Gabriel Poletto\Comum\uWsViaCEP.pas</Transaction>
+    <Transaction>2024/09/27 22:42:55.000.663,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\uProcessarCEP.pas=</Transaction>
+    <Transaction>2024/09/27 22:43:54.000.975,C:\Users\gabriel\Desktop\Gabriel Poletto\Comum\uWsViaCEP.pas=</Transaction>
+    <Transaction>2024/09/27 22:48:13.000.916,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/27 23:13:07.000.097,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\ufrmConfigIni.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm</Transaction>
+    <Transaction>2024/09/27 23:13:07.000.097,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\ufrmConfigIni.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/28 11:22:15.000.226,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Cadastros\udmCadPessoa.pas=</Transaction>
+    <Transaction>2024/09/28 11:22:44.000.158,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/28 11:23:20.000.877,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Cadastros\udmCadPedidoVenda.dfm</Transaction>
+    <Transaction>2024/09/28 11:23:20.000.877,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Cadastros\udmCadPedidoVenda.pas</Transaction>
+    <Transaction>2024/09/28 11:25:07.000.862,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/28 11:25:20.000.685,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\udmConsulta.pas</Transaction>
+    <Transaction>2024/09/28 11:25:20.000.685,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\udmConsulta.dfm</Transaction>
+    <Transaction>2024/09/28 21:26:07.000.682,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\udmConsulta.pas=</Transaction>
+    <Transaction>2024/09/28 21:26:51.000.267,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Base\udmBaseConsulta.pas</Transaction>
+    <Transaction>2024/09/28 21:27:22.000.975,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/28 21:27:42.000.186,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaCliente.dfm</Transaction>
+    <Transaction>2024/09/28 21:27:42.000.186,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaCliente.pas</Transaction>
+    <Transaction>2024/09/28 22:06:33.000.798,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\uComponentsDataSnap.pas</Transaction>
+    <Transaction>2024/09/29 11:25:36.000.038,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/29 11:27:16.000.784,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaProduto.pas</Transaction>
+    <Transaction>2024/09/29 11:27:16.000.784,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaProduto.dfm</Transaction>
+    <Transaction>2024/09/29 11:41:38.000.666,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/29 11:41:48.000.502,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\udmInserirProduto.dfm</Transaction>
+    <Transaction>2024/09/29 11:41:48.000.502,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Geral\udmInserirProduto.pas</Transaction>
+    <Transaction>2024/09/29 23:53:33.000.867,=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas</Transaction>
+    <Transaction>2024/09/29 23:53:49.000.309,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.dfm=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaPedido.dfm</Transaction>
+    <Transaction>2024/09/29 23:53:49.000.309,C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Unit1.pas=C:\Users\gabriel\Desktop\Gabriel Poletto\Servidor\Consultas\udmConsultaPedido.pas</Transaction>
+  </Transactions>
+</BorlandProject>

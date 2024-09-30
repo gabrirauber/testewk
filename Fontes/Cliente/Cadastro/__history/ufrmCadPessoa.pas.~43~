@@ -1,0 +1,180 @@
+unit ufrmCadPessoa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBaseCadastro, Data.DB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, udmCadPessoa, Vcl.DBCtrls,
+  Vcl.Mask, ufrmEndereco, uClasses, ufrmInserirLote;
+
+type
+  TTipoPessoa = (ttpFisica, ttpJuridica);
+
+  TfrmCadPessoa = class(TfrmBaseCadastro)
+    GroupBox1: TGroupBox;
+    rgTipoPessoa: TRadioGroup;
+    DBEdit1: TDBEdit;
+    Label1: TLabel;
+    edtDocumento: TMaskEdit;
+    Label3: TLabel;
+    DBEdit2: TDBEdit;
+    Label2: TLabel;
+    DBEdit3: TDBEdit;
+    Label4: TLabel;
+    Panel4: TPanel;
+    GroupBox2: TGroupBox;
+    DBGrid1: TDBGrid;
+    dsEnderecos: TDataSource;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure rgTipoPessoaExit(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+  private
+    { Private declarations }
+    procedure AjustarDadosCampos;
+    procedure AjustarPessoa(Tipo: TTipoPessoa);
+    procedure AbrirTelaEndereco(Operacao: TOperacao);
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadPessoa: TfrmCadPessoa;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadPessoa.AbrirTelaEndereco(Operacao: TOperacao);
+var
+  Form: TfrmEndereco;
+  Endereco: TInserirEndereco;
+begin
+  Form := TfrmEndereco.Create(Self);
+  try
+    if Operacao = toAlterando then
+    begin
+      Endereco := TInserirEndereco.Create;
+      Endereco.CEP := dsEnderecos.DataSet.FieldByName('dscep').AsString;
+      Endereco.UF := dsEnderecos.DataSet.FieldByName('dsuf').AsString;
+      Endereco.Cidade := dsEnderecos.DataSet.FieldByName('nmcidade').AsString;
+      Endereco.Bairro := dsEnderecos.DataSet.FieldByName('nmbairro').AsString;
+      Endereco.Logradouro := dsEnderecos.DataSet.FieldByName('nmlogradouro').AsString;
+      Endereco.complemento := dsEnderecos.DataSet.FieldByName('dscomplemento').AsString;
+      Form.DadosEndereco := Endereco;
+    end;
+    if Form.ShowModal = mrOk then
+    begin
+      Endereco := Form.DadosEndereco;
+      (dmCadastro as TdmCadPessoa).InserirEndereco(Endereco, Operacao);
+    end;
+  finally
+    Form.Free;
+    if Assigned(Endereco) then
+      Endereco.Free;
+  end;
+end;
+
+procedure TfrmCadPessoa.AjustarDadosCampos;
+begin
+  if Operacao = toCadastrando then
+    AjustarPessoa(ttpFisica)
+  else if Operacao = toAlterando then
+  begin
+    AjustarPessoa(TTipoPessoa(dsCadastro.DataSet.FieldByName('flnatureza').AsInteger));
+    edtDocumento.Text := dsCadastro.DataSet.FieldByName('dsdocumento').AsString;
+  end;
+end;
+
+procedure TfrmCadPessoa.AjustarPessoa(Tipo: TTipoPessoa);
+begin
+  rgTipoPessoa.ItemIndex := Integer(Tipo);
+  if Tipo = ttpFisica then
+    edtDocumento.EditMask := '!999\.999\.999\-99;1;_'
+  else
+    edtDocumento.EditMask := '!99\.999\.999\/9999\-99;1;_'
+end;
+
+procedure TfrmCadPessoa.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  edtDocumento.Text := '';
+end;
+
+procedure TfrmCadPessoa.btnEditarClick(Sender: TObject);
+begin
+  inherited;
+  AjustarDadosCampos;
+end;
+
+procedure TfrmCadPessoa.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  AjustarDadosCampos;
+end;
+
+procedure TfrmCadPessoa.btnSalvarClick(Sender: TObject);
+begin
+  dsCadastro.DataSet.Edit;
+  dsCadastro.DataSet.FieldByName('flnatureza').AsInteger := rgTipoPessoa.ItemIndex;
+  dsCadastro.DataSet.FieldByName('dsdocumento').AsString := edtDocumento.Text;
+  if dsEnderecos.DataSet.RecordCount = 0 then
+    raise Exception.Create('A pessoa precisa ter pelo menos um endereço!');
+  inherited;
+end;
+
+procedure TfrmCadPessoa.Button1Click(Sender: TObject);
+begin
+  inherited;
+  AbrirTelaEndereco(toCadastrando);
+end;
+
+procedure TfrmCadPessoa.Button2Click(Sender: TObject);
+begin
+  inherited;
+  if dsEnderecos.DataSet.RecordCount > 0 then
+    AbrirTelaEndereco(toAlterando)
+  else
+    ShowMessage('Nenhum endereço para alterar!');
+end;
+
+procedure TfrmCadPessoa.Button3Click(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox('Deseja excluir o endereço?', 'Atenção', MB_YESNO) = mrYes then
+    (dmCadastro as TdmCadPessoa).ExcluirEndereco;
+end;
+
+procedure TfrmCadPessoa.Button4Click(Sender: TObject);
+var
+  Form:
+begin
+  inherited;
+
+end;
+
+procedure TfrmCadPessoa.FormCreate(Sender: TObject);
+begin
+  dmCadastro := TdmCadPessoa.Create(Self);
+  inherited;
+  dsEnderecos.DataSet := (dmCadastro as TdmCadPessoa).memEnderecos;
+end;
+
+procedure TfrmCadPessoa.rgTipoPessoaExit(Sender: TObject);
+begin
+  inherited;
+  AjustarPessoa(TTipoPessoa(rgTipoPessoa.ItemIndex));
+end;
+
+end.

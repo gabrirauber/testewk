@@ -1,0 +1,109 @@
+unit ufrmInserirLote;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.StdCtrls, Vcl.ComCtrls,
+  Vcl.ExtCtrls, uProcessaLote;
+
+type
+  TProcessos = array of TProcessarLoteThread;
+
+  TfrmInserirLote = class(TfrmBase)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    edtArquivo: TEdit;
+    Label1: TLabel;
+    Button1: TButton;
+    OpenDialog1: TOpenDialog;
+    Button2: TButton;
+    pnlProcessando: TPanel;
+    pbProgresso: TProgressBar;
+    Label2: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    FLista: TStringList;
+    { Private declarations }
+    procedure ProcessarArquivo;
+  public
+    { Public declarations }
+    property Lista: TStringList read FLista write FLista;
+  end;
+
+var
+  frmInserirLote: TfrmInserirLote;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmInserirLote.Button1Click(Sender: TObject);
+begin
+  inherited;
+  if not OpenDialog1.Execute then
+    Exit;
+  edtArquivo.Text := OpenDialog1.FileName;
+end;
+
+procedure TfrmInserirLote.Button2Click(Sender: TObject);
+begin
+  inherited;
+  Lista := TStringList.Create;
+  Lista.LoadFromFile(edtArquivo.Text);
+  ProcessarArquivo;
+end;
+
+procedure TfrmInserirLote.ProcessarArquivo;
+var
+  Processos: TProcessos;
+  Quantidade, I, Quantidadeporprocesso: Integer;
+  posInicial: Integer;
+  posFinal: Integer;
+  Concluido: Boolean;
+begin
+  try
+    pnlProcessando.Visible := True;
+    Quantidadeporprocesso := 200;
+    Quantidade := trunc(Lista.Count/Quantidadeporprocesso);
+    posInicial := 0;
+    posFinal := Quantidadeporprocesso -1;
+    SetLength(Processos, Quantidade);
+    for I := 0 to Quantidade -1 do
+    begin
+      Processos[I] := TProcessarLoteThread.Create;
+      Processos[I].Arquivo := TStringList.Create;
+      Processos[I].Arquivo.Text := Lista.Text;
+      Processos[I].IndexInicial := posInicial;
+      Processos[I].IndexFinal := posFinal;
+      Processos[I].Start;
+      Sleep(500);
+      posInicial := posInicial + Quantidadeporprocesso;
+      if posInicial > Lista.Count then
+      begin
+        posInicial := Lista.Count - posFinal +1;
+        posFinal := Lista.Count;
+      end
+      else
+        posFinal := posFinal + Quantidadeporprocesso;
+    end;
+    Concluido := False;
+    while not Concluido do
+    begin
+      Concluido := True;
+      for I := 0 to Quantidade -1 do
+      begin
+        if Processos[I].Ativo then
+          Concluido := False
+      end;
+      Application.ProcessMessages;
+    end;
+  finally
+    pnlProcessando.Visible := False;
+
+  end;
+  ShowMessage('Importação Concluida!');
+end;
+
+end.

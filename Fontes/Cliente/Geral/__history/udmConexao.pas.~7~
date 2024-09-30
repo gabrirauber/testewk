@@ -1,0 +1,48 @@
+unit udmConexao;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, uMethods, Datasnap.DSClientRest, uArquivoIni;
+
+type
+  TdmConexao = class(TDataModule)
+    rConexao: TDSRestConnection;
+  private
+    FInstanceOwner: Boolean;
+    { Private declarations }
+    procedure ConfigurarConexao;
+  public
+
+    constructor Create(AOwner: TComponent); override;
+    property InstanceOwner: Boolean read FInstanceOwner write FInstanceOwner;
+
+end;
+
+var
+  dmConexao: TdmConexao;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TdmConexao.ConfigurarConexao;
+begin
+  ARet := TArquivoIni.LerArquivoIni('CONEXAO','IP');
+  rConexao.Host := dmConfiguracoes.LerConfiguracaoLocal('IP','', tscConexao);
+  ARet := dmConfiguracoes.LerConfiguracaoLocal('PORTA','', tscConexao);
+  rConexao.Port := StrToInt(ARet);
+
+end;
+
+constructor TdmConexao.Create(AOwner: TComponent);
+begin
+  inherited;
+  FInstanceOwner := True;
+
+end;
+
+
+end.

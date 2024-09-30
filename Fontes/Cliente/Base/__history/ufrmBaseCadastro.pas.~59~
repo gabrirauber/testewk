@@ -1,0 +1,65 @@
+unit ufrmBaseCadastro;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.ComCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, udmBaseCadastro, uClasses,
+  System.ImageList, Vcl.ImgList;
+
+type
+  TfrmBaseCadastro = class(TfrmBase)
+    pnlPrincipal: TPanel;
+    pnlControle: TPanel;
+    btnCancelar: TButton;
+    btnSalvar: TButton;
+    ilLista: TImageList;
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+    FdmCadastro: TdmBaseCadastro;
+    function getdmCadastro: TdmBaseCadastro;
+  protected
+    procedure CancelarEdicao;
+  public
+    { Public declarations }
+    property dmCadastro: TdmBaseCadastro read getdmCadastro write FdmCadastro;
+  end;
+
+var
+  frmBaseCadastro: TfrmBaseCadastro;
+
+implementation
+
+{$R *.dfm}
+
+
+
+procedure TfrmBaseCadastro.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox('Deseja alterar a edição?', 'Atenção', MB_YESNO) = mrYes then
+    CancelarEdicao;
+end;
+
+procedure TfrmBaseCadastro.btnSalvarClick(Sender: TObject);
+begin
+  inherited;
+  dmCadastro.SalvarCadastro;
+  ShowMessage('Salvo com sucesso!');
+  CancelarEdicao;
+end;
+
+procedure TfrmBaseCadastro.CancelarEdicao;
+begin
+
+end;
+
+function TfrmBaseCadastro.getdmCadastro: TdmBaseCadastro;
+begin
+  Result := FdmCadastro;
+end;
+
+end.

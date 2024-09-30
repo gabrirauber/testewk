@@ -1,0 +1,53 @@
+unit ufrmConsulta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmBase, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.Grids;
+
+type
+  TTipoConsulta = (ttcCliente, ttcPedido, ttcProduto);
+
+  TfrmConsulta = class(TfrmBase)
+    Panel1: TPanel;
+    pnlControle: TPanel;
+    btnCancelar: TButton;
+    btnSalvar: TButton;
+    StringGrid1: TStringGrid;
+  private
+    FCampoRetorno: String;
+    FCodigoRetornado: Integer;
+    FDescricaoRetornada: String;
+    { Private declarations }
+  public
+    { Public declarations }
+    property CampoRetorno: String read FCampoRetorno write FCampoRetorno;
+    property CodigoRetornado: Integer read FCodigoRetornado write FCodigoRetornado;
+    property DescricaoRetornada: String read FDescricaoRetornada write FDescricaoRetornada;
+
+    function RealizarConsulta(TipoConsulta: TTipoConsulta): Boolean;
+  end;
+
+var
+  frmConsulta: TfrmConsulta;
+
+implementation
+
+{$R *.dfm}
+
+uses uMethods, udmConexao;
+
+{ TfrmConsulta }
+
+function TfrmConsulta.RealizarConsulta(TipoConsulta: TTipoConsulta): Boolean;
+var
+  Methods: TdmBaseConsultaClient;
+begin
+  Methods := TdmConsultaClienteClient.Create(dmConexao.rConexao);
+  Methods.RetornaDadosConsulta('');
+
+end;
+
+end.

@@ -1,0 +1,55 @@
+unit udmBaseCadastro;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBase, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Data.FireDACJSONReflect, uClasses, uInterfaces;
+
+type
+  TdmBaseCadastro = class(TdmBase)
+  private
+    FJsonSalvar: String;
+    { Private declarations }
+  public
+    { Public declarations }
+    FMethods: IBaseCadastro;
+    property JsonSalvar: String read FJsonSalvar write FJsonSalvar;
+    function SalvarCadastro: Boolean;virtual;
+    function ExcluirCadastro(ID: Integer): Boolean;virtual;
+    function RetornaDadosCadastro(ID: Integer): String;virtual;
+  end;
+
+var
+  dmBaseCadastro: TdmBaseCadastro;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmBaseCadastro }
+
+
+
+{ TdmBaseCadastro }
+
+function TdmBaseCadastro.ExcluirCadastro(ID: Integer): Boolean;
+begin
+  Result := FMethods.ExcluirCadastro(ID);
+end;
+
+function TdmBaseCadastro.RetornaDadosCadastro(ID: Integer): String;
+begin
+  Result := FMethods.RetornaDadosCadastro(ID);
+end;
+
+function TdmBaseCadastro.SalvarCadastro: Boolean;
+begin
+  Result := FMethods.SalvarCadastro(JsonSalvar);
+end;
+
+end.

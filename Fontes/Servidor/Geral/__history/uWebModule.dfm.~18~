@@ -1,0 +1,51 @@
+object WebModule1: TWebModule1
+  Actions = <
+    item
+      Default = True
+      Name = 'DefaultHandler'
+      PathInfo = '/'
+      OnAction = WebModule1DefaultHandlerAction
+    end>
+  Height = 333
+  Width = 414
+  object DSServer1: TDSServer
+    OnDisconnect = DSServer1Disconnect
+    Left = 96
+    Top = 11
+  end
+  object DSHTTPWebDispatcher1: TDSHTTPWebDispatcher
+    Server = DSServer1
+    Filters = <>
+    WebDispatch.PathInfo = 'datasnap*'
+    Left = 96
+    Top = 75
+  end
+  object DSServerBaseCadastro: TDSServerClass
+    OnGetClass = DSServerBaseCadastroGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 248
+    Top = 40
+  end
+  object DSServerCadPedidoVenda: TDSServerClass
+    OnGetClass = DSServerCadPedidoVendaGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 256
+    Top = 112
+  end
+  object DSServerBaseConsulta: TDSServerClass
+    OnGetClass = DSServerBaseConsultaGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 272
+    Top = 176
+  end
+  object DSServerPedidoVenda: TDSServerClass
+    OnGetClass = DSServerCadPedidoVendaGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 88
+    Top = 184
+  end
+end

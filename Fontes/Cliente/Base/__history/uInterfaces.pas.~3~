@@ -1,0 +1,32 @@
+unit uInterfaces;
+
+interface
+
+uses
+   Data.FireDACJSONReflect, Datasnap.DSClientRest, uMethods, JSon;
+
+type
+
+  IBaseCadastro = interface
+    function GetRegistros(_AWhere: string; JoinSQL: string; WhereSQL: string; _APosIni: Integer; _APosFin: Integer; var _AErro: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function GetRegistro(_AID: Integer; var _AErro: string; const ARequestFilter: string = ''): TFDJSONDataSets;
+    function ApplyUpdatesDelta(_ADeltaList: TFDJSONDeltas; const ARequestFilter: string = ''): string;
+    function GetInfoBasico(var _ACampoChave: string; var _ASequencia: string; var _ACaptions: string; const ARequestFilter: string = ''): string;
+    function DeletarRegistros(_AIDs: string; const ARequestFilter: string = ''): string;
+    function GetCampoLKP(_AID: Integer; _ACampoRetorno: string; JoinSQLConsulta: string; WhereSQLConsulta: string; Filiais: String; var _AErro: string; const ARequestFilter: string = ''): string;
+    function GetDataHoraServidor(const ARequestFilter: string = ''): Double;
+    function GetFiliais(const ARequestFilter: string = ''): TFDJSONDataSets;
+    procedure ExcluirArquivo(ID: Integer);
+    procedure ReceberArquivo(pArquivoJSON: TJSONArray; Arquivo: string; Tamanho: Double; Usuario: Integer; ID: Integer; IDArquivo: Integer; Foto: Boolean);
+    function BuscarArquivo(ID: Integer; const ARequestFilter: string = ''): TJSONArray;
+    function BuscarArquivoBase64(ID: Integer; const ARequestFilter: string = ''): String;
+    function Retornamd5(Texto: string; const ARequestFilter: string = ''): string;
+  end;
+ IBaseConsulta = interface
+    function TdmBaseConsultaClient.RetornaDadosConsulta(Filtro: string; const ARequestFilter: string): string;
+ end;
+
+
+implementation
+
+end.

@@ -1,0 +1,46 @@
+unit uIniFile;
+
+interface
+
+uses System.IniFiles, SysUtils;
+
+type
+  TArquivoIni = class
+  private
+    FArquivo: TIniFile;
+    function getArquivoIni: TIniFile;
+    property Arquivo: TIniFile read getArquivoIni write FArquivo;
+  public
+    class procedure GravarArquivoIni(Secao, Identificador, Valor: string);
+    class function LerArquivoIni(Secao, Identificador: String): String;
+  end;
+
+implementation
+
+{ TArquivoIni }
+
+function TArquivoIni.getArquivoIni: TIniFile;
+begin
+  if not Assigned(FArquivo) then
+    FArquivo := TIniFile.Create(ExtractFileDir(ParamStr(0)) + '\config_servidor.ini');
+  Result := FArquivo;
+end;
+
+class procedure TArquivoIni.GravarArquivoIni(Secao, Identificador,
+  Valor: string);
+var
+  ArquivoIni: TArquivoIni;
+begin
+  try
+    Arquivo.WriteString(Secao, Identificador, Valor);
+  finally
+    ArquivoIni.Free;
+  end;
+end;
+
+class function TArquivoIni.LerArquivoIni(Secao, Identificador: string);
+begin
+
+end;
+
+end.

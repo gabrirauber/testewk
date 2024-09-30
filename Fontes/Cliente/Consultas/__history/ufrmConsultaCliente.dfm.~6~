@@ -1,0 +1,10 @@
+inherited frmConsultaCliente: TfrmConsultaCliente
+  Caption = 'Consulta de Cliente'
+  OnCreate = FormCreate
+  TextHeight = 15
+  inherited Panel1: TPanel
+    inherited grdConsulta: TStringGrid
+      OnKeyDown = grdConsultaKeyDown
+    end
+  end
+end

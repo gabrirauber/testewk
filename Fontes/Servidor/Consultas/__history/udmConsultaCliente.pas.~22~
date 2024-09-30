@@ -1,0 +1,73 @@
+unit udmConsultaCliente;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, udmBaseConsulta, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.JSON;
+
+type
+{$METHODINFO ON}
+  TdmConsultaCliente = class(TdmBaseConsulta)
+  private
+    { Private declarations }
+  protected
+    function RetornaCabecalhos: String;override;
+    function MontarSQLBase: String;override;
+    procedure RealizarConsultaBD(Filtro: String);override;
+  public
+    { Public declarations }
+  end;
+{$METHODINFO OFF}
+var
+  dmConsultaCliente: TdmConsultaCliente;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmConsultaCliente }
+
+function TdmConsultaCliente.MontarSQLBase: String;
+begin
+  Result := 'SELECT ID,' +
+             '       NOME,' +
+             '       CIDADE,' +
+             '       UF ' +
+             'FROM CLIENTE '
+end;
+
+procedure TdmConsultaCliente.RealizarConsultaBD(Filtro: String);
+begin
+  qryConsulta.SQL.Text := MontarSQLBase;
+  if Filtro <> '' then
+  begin
+    qryConsulta.SQL.Text := qryConsulta.SQL.Text + ' WHERE UPPER(NOME) LIKE UPPER(:NOME)';
+    qryConsulta.ParamByName('NOME').AsString := QuotedStr(Filtro);
+  end;
+  qryConsulta.Open();
+  inherited;
+end;
+
+function TdmConsultaCliente.RetornaCabecalhos: String;
+var
+  Cabecalhos: TJSONArray;
+begin
+  Cabecalhos := TJSONArray.Create;
+  try
+    Cabecalhos.Add('Código');
+    Cabecalhos.Add('Nome');
+    Cabecalhos.Add('Cidade');
+    Cabecalhos.Add('UF');
+    Result := Cabecalhos.ToString;
+  finally
+    Cabecalhos.Free;
+  end;
+end;
+
+
+end.

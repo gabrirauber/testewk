@@ -1,0 +1,86 @@
+unit uWsViaCEP;
+
+interface
+
+uses  REST.Types, REST.Client, vcl.Forms, uClasses, SysUtils, System.Json;
+
+type
+  TConsultaCEP = class
+  private
+    FCliente: TRESTClient;
+    FRequisicao: TRESTRequest;
+    FResposta: TRESTResponse;
+    function GetCliente: TRESTClient;
+    function GetRequisicao: TRESTRequest;
+    function GetResposta: TRESTResponse;
+    property Cliente: TRESTClient read GetCliente write FCliente;
+    property Requisicao: TRESTRequest read GetRequisicao write FRequisicao;
+    property Resposta: TRESTResponse read GetResposta write FResposta;
+    function RetornaSemPontuacao(CEP: String): String;
+  public
+    function ConsultaCEP(CEP: String): TInserirEndereco;
+  end;
+
+implementation
+
+{ TConsultaCEP }
+
+function TConsultaCEP.ConsultaCEP(CEP: String): TInserirEndereco;
+var
+  JSonResposta,aux: TJSONValue;
+begin
+  Requisicao.Resource := RetornaSemPontuacao(CEP) + '/json/';
+  Requisicao.Execute;
+  JSonResposta := TJSONObject.ParseJSONValue(Resposta.Content);
+  if JSonResposta.TryGetValue('erro', aux) then
+    Exit;
+
+
+
+end;
+
+function TConsultaCEP.GetCliente: TRESTClient;
+begin
+  if not Assigned(FCliente) then
+  begin
+    FCliente := TRESTClient.Create(Application);
+    FCliente.BaseURL := 'viacep.com.br/ws/';
+    FCliente.UserAgent := 'cliente.exe';
+    FCliente.Accept := '*/*';
+    FCliente.AcceptCharset := '';
+    FCliente.AddParameter('Content-Type','application/json',pkHTTPHEADER,[poDoNotEncode]);
+    FCliente.AddParameter('Accept-Encoding','gzip, deflate, br',pkHTTPHEADER,[poDoNotEncode]);
+    FCliente.AddParameter('Connection','keep-alive',pkHTTPHEADER,[poDoNotEncode]);
+  end;
+
+  Result := FCliente;
+
+end;
+
+function TConsultaCEP.GetRequisicao: TRESTRequest;
+begin
+  if not Assigned(FRequisicao) then
+  begin
+    FRequisicao := TRESTRequest.Create(Application);
+    FRequisicao.Client := Cliente;
+    FRequisicao.Response := Resposta;
+    FRequisicao.Method := rmGET;
+  end;
+
+  Result := FRequisicao;
+end;
+
+function TConsultaCEP.GetResposta: TRESTResponse;
+begin
+  if not Assigned(FResposta) then
+    FResposta := TRESTResponse.Create(Application);
+
+  Result := FResposta;
+end;
+
+function TConsultaCEP.RetornaSemPontuacao(CEP: String): String;
+begin
+  Result := StringReplace(StringReplace(CEP, '-','',[rfReplaceAll]),'.','',[rfReplaceAll]);
+end;
+
+end.

@@ -1,0 +1,2 @@
+inherited dmConsultaProduto: TdmConsultaProduto
+end

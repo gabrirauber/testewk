@@ -1,0 +1,11 @@
+object dmConexao: TdmConexao
+  Height = 271
+  Width = 415
+  object DSRestConnection1: TDSRestConnection
+    Port = 8080
+    LoginPrompt = False
+    Left = 48
+    Top = 40
+    UniqueId = '{1A03058B-451F-4DDC-9E40-A7CAF354400E}'
+  end
+end

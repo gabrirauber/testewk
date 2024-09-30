@@ -1,0 +1,2 @@
+inherited dmCadPedidoVenda: TdmCadPedidoVenda
+end

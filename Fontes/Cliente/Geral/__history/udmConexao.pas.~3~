@@ -1,0 +1,62 @@
+unit udmConexao;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, uMethods, Datasnap.DSClientRest;
+
+type
+  TdmConexao = class(TDataModule)
+    rConexao: TDSRestConnection;
+  private
+    FInstanceOwner: Boolean;
+    FdmBaseCadastroClient: TdmBaseCadastroClient;
+    FdmCadPessoaClient: TdmCadPessoaClient;
+    function GetdmBaseCadastroClient: TdmBaseCadastroClient;
+    function GetdmCadPessoaClient: TdmCadPessoaClient;
+    { Private declarations }
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    property InstanceOwner: Boolean read FInstanceOwner write FInstanceOwner;
+    property dmBaseCadastroClient: TdmBaseCadastroClient read GetdmBaseCadastroClient write FdmBaseCadastroClient;
+    property dmCadPessoaClient: TdmCadPessoaClient read GetdmCadPessoaClient write FdmCadPessoaClient;
+
+end;
+
+var
+  dmConexao: TdmConexao;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+constructor TdmConexao.Create(AOwner: TComponent);
+begin
+  inherited;
+  FInstanceOwner := True;
+end;
+
+destructor TdmConexao.Destroy;
+begin
+  FdmBaseCadastroClient.Free;
+  FdmCadPessoaClient.Free;
+  inherited;
+end;
+
+function TdmConexao.GetdmBaseCadastroClient: TdmBaseCadastroClient;
+begin
+  if FdmBaseCadastroClient = nil then
+    FdmBaseCadastroClient:= TdmBaseCadastroClient.Create(DSRestConnection1, FInstanceOwner);
+  Result := FdmBaseCadastroClient;
+end;
+function TdmConexao.GetdmCadPessoaClient: TdmCadPessoaClient;
+begin
+  if FdmCadPessoaClient = nil then
+    FdmCadPessoaClient:= TdmCadPessoaClient.Create(DSRestConnection1, FInstanceOwner);
+  Result := FdmCadPessoaClient;
+end;
+
+end.

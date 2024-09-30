@@ -1,0 +1,6 @@
+inherited dmCadPessoa: TdmCadPessoa
+  object qryEnderecos: TFDQuery
+    Left = 240
+    Top = 128
+  end
+end
