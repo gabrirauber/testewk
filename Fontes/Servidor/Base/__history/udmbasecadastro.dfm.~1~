@@ -1,7 +1,0 @@
-inherited dmBaseCadastro: TdmBaseCadastro
-  OldCreateOrder = True
-  object qryCadastro: TFDQuery
-    Left = 136
-    Top = 96
-  end
-end

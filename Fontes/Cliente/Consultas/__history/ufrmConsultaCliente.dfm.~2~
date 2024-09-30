@@ -1,4 +1,0 @@
-inherited frmConsultaCliente: TfrmConsultaCliente
-  Caption = 'Consulta de Cliente'
-  TextHeight = 15
-end
